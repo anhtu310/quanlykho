@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="QuanLyKho.UserControlAT.UserControlBarUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:view="clr-namespace:QuanLyKho.Views"
+             Height="auto" Width="auto">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <!-- Thanh menu -->
+            <RowDefinition Height="*"/>
+            <!-- Khu vực hiển thị nội dung -->
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <DockPanel Background="#34495E" Height="60">
+            <TextBlock Text="Quản Lý Kho" Foreground="White" FontSize="30" FontWeight="Bold"
+                       Margin="20,0" VerticalAlignment="Center" DockPanel.Dock="Left"/>
+
+            <UniformGrid Columns="8" HorizontalAlignment="Stretch">
+                <Button Content="Nhân viên" Click="btnEmployee_Click" Background="Transparent" Foreground="White"
+                        FontSize="18" Cursor="Hand" BorderThickness="0" Padding="5"/>
+
+                <Button Content="Nhà phân phối" Click="btnSupplier_Click" Background="Transparent" Foreground="White"
+                        FontSize="18" Cursor="Hand" BorderThickness="0" Padding="5"/>
+
+                <Button Content="Khách hàng" Click="btnCustomer_Click" Background="Transparent" Foreground="White"
+                        FontSize="18" Cursor="Hand" BorderThickness="0" Padding="5"/>
+
+                <Button Content="Hàng hóa" Click="btnObject_Click" Background="Transparent" Foreground="White"
+                        FontSize="18" Cursor="Hand" BorderThickness="0" Padding="5"/>
+                
+                <Button Content="Đơn vị" Click="btnUnit_Click" Background="Transparent" Foreground="White"
+                        FontSize="18" Cursor="Hand" BorderThickness="0" Padding="5"/>
+
+                <Button Content="Nhập kho" Click="btnInput_Click" Background="Transparent" Foreground="White"
+                        FontSize="18" Cursor="Hand" BorderThickness="0" Padding="5"/>
+
+                <Button Content="Xuất kho" Click="btnOutput_Click" Background="Transparent" Foreground="White"
+                        FontSize="18" Cursor="Hand" BorderThickness="0" Padding="5"/>
+
+                <Button Content="Đăng xuất" Click="btnLogout_Click" Background="Red" Foreground="White"
+                        FontSize="18" Cursor="Hand" BorderThickness="0" Padding="5"/>
+            </UniformGrid>
+        </DockPanel>
+
+        <!-- Khu vực hiển thị nội dung -->
+        <Border Grid.Row="1" Margin="10" Background="White" CornerRadius="10" Padding="15" BorderBrush="#DDD" BorderThickness="1">
+            <ContentControl x:Name="ContentArea"/>
+        </Border>
+    </Grid>
+
+</UserControl>

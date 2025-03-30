@@ -1,0 +1,95 @@
+﻿<UserControl x:Class="QuanLyKho.Views.InputView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="500" d:DesignWidth="800">
+
+    <Border Background="White" CornerRadius="10" Padding="20" BorderBrush="#ddd" BorderThickness="1">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Search and Add Button -->
+            <Grid Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Background="#f8f9fa" CornerRadius="5" BorderBrush="#ddd" BorderThickness="1" Height="40" Width="300" HorizontalAlignment="Left">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox x:Name="SearchTextBox" BorderThickness="0" Background="Transparent" Padding="8,4" FontSize="14" VerticalContentAlignment="Center" KeyDown="SearchTextBox_KeyDown"/>
+                        <Button Grid.Column="1" Content="🔍" Background="LightGray" Foreground="#7f8c8d" FontSize="14" Padding="8,0" Cursor="Hand" BorderThickness="0" ToolTip="Tìm kiếm" Click="Button_Click"/>
+                    </Grid>
+                </Border>
+
+                <Button Grid.Column="1" Content="➕ Thêm phiếu nhập" Width="180" Height="40" Background="#27AE60" Foreground="White"
+                        FontSize="14" FontWeight="SemiBold" HorizontalAlignment="Right" 
+                        Cursor="Hand" BorderThickness="0" Click="AddInput_Click"/>
+            </Grid>
+
+            <!-- Danh sách phiếu nhập -->
+            <ListView Grid.Row="1" Name="lvInput" SelectionChanged="lvInput_SelectionChanged">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="50"/>
+                        <GridViewColumn Header="Ngày nhập" DisplayMemberBinding="{Binding DateInput, StringFormat='{}{0:dd/MM/yyyy}'}" Width="150"/>
+
+                        <GridViewColumn Header="Action" Width="250">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <Button Content="➕ Thêm chi tiết" MinWidth="120" Height="30" Background="#2980B9" Foreground="White"
+                                                FontSize="14" FontWeight="SemiBold" Cursor="Hand" BorderThickness="0" Margin="0,0,10,0" Click="AddInputInfo_Click"/>
+                                        <Button Content="❌ Xóa" MinWidth="80" Height="30" Background="red" Foreground="White"
+                                                FontSize="14" FontWeight="SemiBold" Cursor="Hand" BorderThickness="0" 
+                                                Click="DeleteInput_Click"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <!-- Danh sách chi tiết phiếu nhập -->
+           <ListView Grid.Row="2" Name="lvInputInfo" BorderBrush="#ccc" BorderThickness="1" Background="White" Margin="0">
+    <ListView.View>
+        <GridView>
+            <GridViewColumn Header="Sản phẩm" DisplayMemberBinding="{Binding ProductName}" Width="150"/>
+            <GridViewColumn Header="Nhà cung cấp" DisplayMemberBinding="{Binding Supplier}" Width="120"/>
+            <GridViewColumn Header="Số lượng" DisplayMemberBinding="{Binding Count}" Width="100"/>
+            <GridViewColumn Header="Giá nhập" DisplayMemberBinding="{Binding InputPrice, StringFormat='{}{0:N0}'}" Width="100"/>
+            <GridViewColumn Header="Giá xuất" DisplayMemberBinding="{Binding OutputPrice, StringFormat='{}{0:N0}'}" Width="100"/>
+            <GridViewColumn Header="Trạng thái" DisplayMemberBinding="{Binding Status}" Width="120"/>
+
+                        <GridViewColumn Header="Hành động" Width="150">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <!-- Nút Sửa -->
+                                        <Button Content="✏️ Sửa" Background="#f39c12" Foreground="White" FontSize="12" Padding="6" Margin="0,0,5,0" Cursor="Hand" BorderThickness="0" Click="EditInputInfo_Click"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                    </GridView>
+    </ListView.View>
+</ListView>
+
+        </Grid>
+    </Border>
+</UserControl>

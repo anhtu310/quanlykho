@@ -1,0 +1,101 @@
+﻿<UserControl x:Class="QuanLyKho.Views.EmployeeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:QuanLyKho.Helpers"
+             xmlns:views="clr-namespace:QuanLyKho.Views"
+             mc:Ignorable="d"
+             d:DesignHeight="500" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <local:StatusConverter x:Key="StatusConverter"/>
+        <local:StatusColorConverter x:Key="StatusColorConverter"/>
+    </UserControl.Resources>
+
+    <Border Background="White" CornerRadius="10" Padding="20" BorderBrush="#ddd" BorderThickness="1">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Search and Add Button Row -->
+            <Grid Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Background="#f8f9fa" CornerRadius="5" BorderBrush="#ddd" BorderThickness="1" Height="40" Width="300" HorizontalAlignment="Left">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox x:Name="SearchTextBox" BorderThickness="0" Background="Transparent" Padding="8,4" FontSize="14" VerticalContentAlignment="Center" KeyDown="SearchTextBox_KeyDown"/>
+                        <Button Grid.Column="1" Content="🔍" Background="LightGray" Foreground="#7f8c8d" FontSize="14" Padding="8,0" Cursor="Hand" BorderThickness="0" ToolTip="Tìm kiếm" Click="Button_Click"/>
+
+                    </Grid>
+                </Border>
+
+                <Button Grid.Column="1" Content="➕ Thêm nhân viên" Width="160" Height="40" Background="#27AE60" Foreground="White"
+                        FontSize="14" FontWeight="SemiBold" HorizontalAlignment="Right" 
+                        Cursor="Hand" BorderThickness="0" Click="AddEmployee_Click"/>
+            </Grid>
+
+            <!-- ListView -->
+            <ListView Grid.Row="1" Name="lvEmployee" BorderBrush="#ccc" BorderThickness="1" Background="White" Margin="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListView.Resources>
+                    <Style TargetType="GridViewColumnHeader">
+                        <Setter Property="FontWeight" Value="SemiBold"/>
+                        <Setter Property="FontSize" Value="14"/>
+                        <Setter Property="Background" Value="#ecf0f1"/>
+                        <Setter Property="Padding" Value="8"/>
+                        <Setter Property="BorderBrush" Value="#ccc"/>
+                        <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                    </Style>
+                </ListView.Resources>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="50"/>
+                        <GridViewColumn Header="Tên nhân viên" DisplayMemberBinding="{Binding Name}" Width="150"/>
+                        <GridViewColumn Header="Địa chỉ" DisplayMemberBinding="{Binding Address}" Width="150"/>
+                        <GridViewColumn Header="Số điện thoại" DisplayMemberBinding="{Binding Phone}" Width="110"/>
+                        <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="160"/>
+                        <GridViewColumn Header="Trạng thái" Width="90">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Status, Converter={StaticResource StatusConverter}}" 
+                                               Foreground="{Binding Status, Converter={StaticResource StatusColorConverter}}"
+                                               FontWeight="SemiBold"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn Header="Hành động" Width="250">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <!-- Nút Đổi trạng thái -->
+                                        <Button Content="🔄 Đổi trạng thái" Background="#3498DB" Foreground="White" FontSize="12" Padding="6"
+                        Margin="0,0,5,0" Cursor="Hand" BorderThickness="0" Click="ChangeStatus_Click"/>
+
+                                        <!-- Nút Edit -->
+                                        <Button Content="✏️ Sửa" Background="#f39c12" Foreground="White" FontSize="12" Padding="6" 
+                        Margin="0,0,5,0" Cursor="Hand" BorderThickness="0" Click="EditEmployee_Click"/>
+
+                                        <!-- Nút Delete -->
+                                        <Button Content="🗑️ Xóa" Background="#e74c3c" Foreground="White" FontSize="12" Padding="6" 
+                        Cursor="Hand" BorderThickness="0" Click="DeleteEmployee_Click"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+    </Border>
+</UserControl>
