@@ -173,3 +173,4 @@ D:\Desktop\ManageKho\QuanLyKho\QuanLyKho\obj\Debug\net8.0-windows\QuanLyKho.genr
 D:\Desktop\ManageKho\QuanLyKho\QuanLyKho\obj\Debug\net8.0-windows\ref\QuanLyKho.dll
 D:\Desktop\ManageKho\QuanLyKho\QuanLyKho\obj\Debug\net8.0-windows\Views\InputInfoForm.baml
 D:\Desktop\ManageKho\QuanLyKho\QuanLyKho\obj\Debug\net8.0-windows\Views\InputInfoForm.g.cs
+D:\Desktop\ManageKho\QuanLyKho\QuanLyKho\obj\Debug\net8.0-windows\QuanLyKho.sourcelink.json

@@ -33,8 +33,16 @@
             <Label Content="Chọn trạng thái:" FontWeight="Bold"/>
             <ComboBox x:Name="StatusComboBox" Padding="5" Margin="0,0,0,10">
                 <ComboBoxItem Content="Hoàn thành" />
-                <ComboBoxItem Content="Chưa hoàn thành" />
+                <ComboBoxItem Content="Đang thực hiện" />
             </ComboBox>
+
+            <!-- Ảnh hợp đồng -->
+            <Label Content="Hợp đồng:" FontWeight="Bold"/>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <Button Content="Chọn ảnh" Click="SelectImage_Click" Padding="5" Margin="0,0,10,0"/>
+                <Image x:Name="ContractImageView" Width="100" Height="20" Stretch="Uniform"/>
+            </StackPanel>
+
 
             <!-- Nút Lưu và Hủy -->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10,10,0,0">

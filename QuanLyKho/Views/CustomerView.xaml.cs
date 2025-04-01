@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Microsoft.EntityFrameworkCore;
+using QuanLyKho.Data;
 using QuanLyKho.Models;
 using QuanLyKho.Views;
 
@@ -13,7 +14,7 @@ namespace QuanLyKho.Views
     public partial class CustomerView : UserControl
     {
         private QuanlyKhoDbContext context;
-        public ObservableCollection<Customer> Customers { get; set; }
+        public ObservableCollection<Customer>? Customers { get; set; }
 
         public CustomerView()
         {

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using QuanLyKho.Models;
 
-namespace QuanLyKho.Models;
+namespace QuanLyKho.Data;
 
 public partial class QuanlyKhoDbContext : DbContext
 {
@@ -16,6 +17,8 @@ public partial class QuanlyKhoDbContext : DbContext
     }
 
     public virtual DbSet<Attendance> Attendances { get; set; }
+
+    public virtual DbSet<Category> Categories { get; set; }
 
     public virtual DbSet<Customer> Customers { get; set; }
 
@@ -31,6 +34,8 @@ public partial class QuanlyKhoDbContext : DbContext
 
     public virtual DbSet<Product> Products { get; set; }
 
+    public virtual DbSet<ProductSupplier> ProductSuppliers { get; set; }
+
     public virtual DbSet<Supplier> Suppliers { get; set; }
 
     public virtual DbSet<Unit> Units { get; set; }
@@ -42,7 +47,7 @@ public partial class QuanlyKhoDbContext : DbContext
     {
         modelBuilder.Entity<Attendance>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Attendan__3214EC0798766A73");
+            entity.HasKey(e => e.Id).HasName("PK__Attendan__3214EC07EE8EF055");
 
             entity.ToTable("Attendance");
 
@@ -56,15 +61,26 @@ public partial class QuanlyKhoDbContext : DbContext
                 .HasConstraintName("FK_Attendance_Employee");
         });
 
+        modelBuilder.Entity<Category>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Category__3214EC07F509DC8B");
+
+            entity.ToTable("Category");
+
+            entity.HasIndex(e => e.Name, "UQ__Category__737584F614237C5B").IsUnique();
+
+            entity.Property(e => e.Name).HasMaxLength(100);
+        });
+
         modelBuilder.Entity<Customer>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Customer__3214EC07EC8E75B5");
+            entity.HasKey(e => e.Id).HasName("PK__Customer__3214EC07987F24E8");
 
             entity.ToTable("Customer");
 
-            entity.HasIndex(e => e.Phone, "UQ__Customer__5C7E359EE8C6249B").IsUnique();
+            entity.HasIndex(e => e.Phone, "UQ__Customer__5C7E359E93D59A33").IsUnique();
 
-            entity.HasIndex(e => e.Email, "UQ__Customer__A9D105342D15C596").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__Customer__A9D105342B3741AC").IsUnique();
 
             entity.Property(e => e.Address).HasMaxLength(200);
             entity.Property(e => e.Email).HasMaxLength(100);
@@ -75,13 +91,13 @@ public partial class QuanlyKhoDbContext : DbContext
 
         modelBuilder.Entity<Employee>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Employee__3214EC073C438062");
+            entity.HasKey(e => e.Id).HasName("PK__Employee__3214EC07256EBBD4");
 
             entity.ToTable("Employee");
 
-            entity.HasIndex(e => e.Phone, "UQ__Employee__5C7E359E49DD463E").IsUnique();
+            entity.HasIndex(e => e.Phone, "UQ__Employee__5C7E359EB71966F3").IsUnique();
 
-            entity.HasIndex(e => e.Email, "UQ__Employee__A9D10534FED458CC").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__Employee__A9D10534A8ED21EA").IsUnique();
 
             entity.Property(e => e.Address).HasMaxLength(200);
             entity.Property(e => e.Email).HasMaxLength(100);
@@ -92,14 +108,14 @@ public partial class QuanlyKhoDbContext : DbContext
 
         modelBuilder.Entity<Input>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Input__3214EC077BE7ED4F");
+            entity.HasKey(e => e.Id).HasName("PK__Input__3214EC072F75DBAF");
 
             entity.ToTable("Input");
         });
 
         modelBuilder.Entity<InputInfo>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__InputInf__3214EC07B486C670");
+            entity.HasKey(e => e.Id).HasName("PK__InputInf__3214EC07109D386D");
 
             entity.ToTable("InputInfo");
 
@@ -110,29 +126,24 @@ public partial class QuanlyKhoDbContext : DbContext
             entity.HasOne(d => d.IdInputNavigation).WithMany(p => p.InputInfos)
                 .HasForeignKey(d => d.IdInput)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__InputInfo__IdInp__37A5467C");
+                .HasConstraintName("FK__InputInfo__IdInp__3D5E1FD2");
 
-            entity.HasOne(d => d.IdProductNavigation).WithMany(p => p.InputInfos)
-                .HasForeignKey(d => d.IdProduct)
+            entity.HasOne(d => d.IdProductSupplierNavigation).WithMany(p => p.InputInfos)
+                .HasForeignKey(d => d.IdProductSupplier)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__InputInfo__IdPro__35BCFE0A");
-
-            entity.HasOne(d => d.IdSupplierNavigation).WithMany(p => p.InputInfos)
-                .HasForeignKey(d => d.IdSupplier)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__InputInfo__IdSup__36B12243");
+                .HasConstraintName("FK__InputInfo__IdPro__3C69FB99");
         });
 
         modelBuilder.Entity<Output>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Output__3214EC07B4B2F77B");
+            entity.HasKey(e => e.Id).HasName("PK__Output__3214EC0742352A9A");
 
             entity.ToTable("Output");
         });
 
         modelBuilder.Entity<OutputInfo>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__OutputIn__3214EC07E33E70E9");
+            entity.HasKey(e => e.Id).HasName("PK__OutputIn__3214EC07F8D0596F");
 
             entity.ToTable("OutputInfo");
 
@@ -141,52 +152,68 @@ public partial class QuanlyKhoDbContext : DbContext
             entity.HasOne(d => d.IdCustomerNavigation).WithMany(p => p.OutputInfos)
                 .HasForeignKey(d => d.IdCustomer)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__OutputInf__IdCus__3F466844");
+                .HasConstraintName("FK__OutputInf__IdCus__44FF419A");
 
             entity.HasOne(d => d.IdInputInfoNavigation).WithMany(p => p.OutputInfos)
                 .HasForeignKey(d => d.IdInputInfo)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__OutputInf__IdInp__3E52440B");
+                .HasConstraintName("FK__OutputInf__IdInp__440B1D61");
 
             entity.HasOne(d => d.IdOutputNavigation).WithMany(p => p.OutputInfos)
                 .HasForeignKey(d => d.IdOutput)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__OutputInf__IdOut__3C69FB99");
+                .HasConstraintName("FK__OutputInf__IdOut__4222D4EF");
 
             entity.HasOne(d => d.IdProductNavigation).WithMany(p => p.OutputInfos)
                 .HasForeignKey(d => d.IdProduct)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__OutputInf__IdPro__3D5E1FD2");
+                .HasConstraintName("FK__OutputInf__IdPro__4316F928");
         });
 
         modelBuilder.Entity<Product>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Product__3214EC073B0A8570");
+            entity.HasKey(e => e.Id).HasName("PK__Product__3214EC07D6D7399C");
 
             entity.ToTable("Product");
 
             entity.Property(e => e.Name).HasMaxLength(100);
 
-            entity.HasOne(d => d.IdSupplierNavigation).WithMany(p => p.Products)
-                .HasForeignKey(d => d.IdSupplier)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Product__IdSuppl__30F848ED");
+            entity.HasOne(d => d.Category).WithMany(p => p.Products)
+                .HasForeignKey(d => d.CategoryId)
+                .HasConstraintName("FK__Product__Categor__33D4B598");
 
             entity.HasOne(d => d.IdUnitNavigation).WithMany(p => p.Products)
                 .HasForeignKey(d => d.IdUnit)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Product__IdUnit__300424B4");
+                .HasConstraintName("FK__Product__IdUnit__32E0915F");
+        });
+
+        modelBuilder.Entity<ProductSupplier>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__ProductS__3214EC07F4F3CBB8");
+
+            entity.ToTable("ProductSupplier");
+
+            entity.HasOne(d => d.IdProductNavigation).WithMany(p => p.ProductSuppliers)
+                .HasForeignKey(d => d.IdProduct)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__ProductSu__IdPro__36B12243");
+
+            entity.HasOne(d => d.IdSupplierNavigation).WithMany(p => p.ProductSuppliers)
+                .HasForeignKey(d => d.IdSupplier)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__ProductSu__IdSup__37A5467C");
         });
 
         modelBuilder.Entity<Supplier>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Supplier__3214EC0797AAE523");
+            entity.HasKey(e => e.Id).HasName("PK__Supplier__3214EC07F6861598");
 
             entity.ToTable("Supplier");
 
-            entity.HasIndex(e => e.Phone, "UQ__Supplier__5C7E359EA85735C1").IsUnique();
+            entity.HasIndex(e => e.Phone, "UQ__Supplier__5C7E359E6F037600").IsUnique();
 
-            entity.HasIndex(e => e.Email, "UQ__Supplier__A9D105348BF68F31").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__Supplier__A9D1053492801B71").IsUnique();
 
             entity.Property(e => e.Address).HasMaxLength(200);
             entity.Property(e => e.Email).HasMaxLength(100);
@@ -197,11 +224,11 @@ public partial class QuanlyKhoDbContext : DbContext
 
         modelBuilder.Entity<Unit>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Unit__3214EC0783411A75");
+            entity.HasKey(e => e.Id).HasName("PK__Unit__3214EC0734CBA8A6");
 
             entity.ToTable("Unit");
 
-            entity.HasIndex(e => e.Name, "UQ__Unit__737584F66AF73CF7").IsUnique();
+            entity.HasIndex(e => e.Name, "UQ__Unit__737584F61F12D1C6").IsUnique();
 
             entity.Property(e => e.Name).HasMaxLength(100);
         });

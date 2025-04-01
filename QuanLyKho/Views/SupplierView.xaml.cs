@@ -6,13 +6,14 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using QuanLyKho.Models;
 using Microsoft.EntityFrameworkCore;
+using QuanLyKho.Data;
 
 namespace QuanLyKho.Views
 {
     public partial class SupplierView : UserControl
     {
         private QuanlyKhoDbContext context;
-        public ObservableCollection<Supplier> Suppliers { get; set; }
+        public ObservableCollection<Supplier>? Suppliers { get; set; }
 
         public SupplierView()
         {
@@ -91,6 +92,12 @@ namespace QuanLyKho.Views
 
         private void SearchSupplier()
         {
+            if (Suppliers == null)
+            {
+                lvSupplier.ItemsSource = null;
+                return;
+            }
+
             string keyword = SearchTextBox.Text.Trim().ToLower();
             if (string.IsNullOrEmpty(keyword))
             {

@@ -19,7 +19,5 @@ public partial class Supplier
 
     public string? MoreInfo { get; set; }
 
-    public virtual ICollection<InputInfo> InputInfos { get; set; } = new List<InputInfo>();
-
-    public virtual ICollection<Product> Products { get; set; } = new List<Product>();
+    public virtual ICollection<ProductSupplier> ProductSuppliers { get; set; } = new List<ProductSupplier>();
 }

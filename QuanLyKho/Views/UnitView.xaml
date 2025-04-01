@@ -10,53 +10,70 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
             <!-- Search and Add Button Row -->
             <Grid Margin="0,0,0,10">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Border Grid.Column="0" Background="#f8f9fa" CornerRadius="5" BorderBrush="#ddd" BorderThickness="1" Height="40" Width="300" HorizontalAlignment="Left">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-
-                        <TextBox x:Name="SearchTextBox" BorderThickness="0" Background="Transparent" Padding="8,4" FontSize="14" VerticalContentAlignment="Center" KeyDown="SearchTextBox_KeyDown"/>
-                        <Button Grid.Column="1" Content="🔍" Background="LightGray" Foreground="#7f8c8d" FontSize="14" Padding="8,0" Cursor="Hand" BorderThickness="0" ToolTip="Tìm kiếm" Click="Button_Click"/>
-
-                    </Grid>
-                </Border>
-
-                <Button Grid.Column="1" Content="➕ Thêm đơn vị" Width="160" Height="40" Background="#27AE60" Foreground="White"
+                <Button Grid.Column="0" Content="➕ Thêm đơn vị" Width="160" Height="40" Background="#27AE60" Foreground="White"
                         FontSize="14" FontWeight="SemiBold" HorizontalAlignment="Right" 
                         Cursor="Hand" BorderThickness="0" Click="AddUnit_Click"/>
+
+                <Button Grid.Column="1" Content="➕ Thêm danh mục" Width="160" Height="40" Background="#27AE60" Foreground="White"
+                        FontSize="14" FontWeight="SemiBold" HorizontalAlignment="Right" 
+                        Cursor="Hand" BorderThickness="0" Click="AddCategory_Click"/>
             </Grid>
 
-            <!-- ListView -->
-            <ListView Grid.Row="1" Name="lvUnit" BorderBrush="#ccc" BorderThickness="1" Background="White" Margin="0">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="50"/>
-                        <GridViewColumn Header="Tên đơn vị" DisplayMemberBinding="{Binding Name}" Width="200"/>
-                        <GridViewColumn Header="Hành động" Width="200">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <Button Content="✏️ Sửa" Background="#f39c12" Foreground="White" FontSize="12" Padding="6" Margin="0,0,5,0" Cursor="Hand" BorderThickness="0" Click="EditUnit_Click"/>
-                                        <Button Content="🗑️ Xóa" Background="#e74c3c" Foreground="White" FontSize="12" Padding="6" Cursor="Hand" BorderThickness="0" Click="DeleteUnit_Click"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                    </GridView>
-                </ListView.View>
-            </ListView>
+            <!-- ListView for Units and Categories -->
+            <Grid Grid.Row="1" Margin="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- ListView for Units -->
+                <ListView Grid.Column="0" Name="lvUnit" BorderBrush="#ccc" BorderThickness="1" Background="White" Margin="0">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Tên đơn vị" DisplayMemberBinding="{Binding Name}" Width="200"/>
+                            <GridViewColumn Header="Hành động" Width="200">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <Button Content="✏️ Sửa" Background="#f39c12" Foreground="White" FontSize="12" Padding="6" Margin="0,0,5,0" Cursor="Hand" BorderThickness="0" Click="EditUnit_Click"/>
+                                            <Button Content="🗑️ Xóa" Background="#e74c3c" Foreground="White" FontSize="12" Padding="6" Cursor="Hand" BorderThickness="0" Click="DeleteUnit_Click"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
+                <!-- ListView for Categories -->
+                <ListView Grid.Column="1" Name="lvCategory" BorderBrush="#ccc" BorderThickness="1" Background="White" Margin="0">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Tên danh mục" DisplayMemberBinding="{Binding Name}" Width="200"/>
+                            <GridViewColumn Header="Hành động" Width="200">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <Button Content="✏️ Sửa" Background="#f39c12" Foreground="White" FontSize="12" Padding="6" Margin="0,0,5,0" Cursor="Hand" BorderThickness="0" Click="EditCategory_Click"/>
+                                            <Button Content="🗑️ Xóa" Background="#e74c3c" Foreground="White" FontSize="12" Padding="6" Cursor="Hand" BorderThickness="0" Click="DeleteCategory_Click"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
         </Grid>
     </Border>
 </UserControl>

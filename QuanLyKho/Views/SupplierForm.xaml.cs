@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using QuanLyKho.Data;
 using QuanLyKho.Models;
 
 namespace QuanLyKho.Views
@@ -8,8 +9,8 @@ namespace QuanLyKho.Views
     public partial class SupplierForm : UserControl
     {
         private QuanlyKhoDbContext context;
-        private Supplier supplier;
-        public Action OnSupplierUpdated { get; set; }
+        private Supplier? supplier;
+        public Action? OnSupplierUpdated { get; set; }
 
         public SupplierForm(Supplier existingSupplier = null)
         {

@@ -27,10 +27,10 @@
                 <Button Content="Khách hàng" Click="btnCustomer_Click" Background="Transparent" Foreground="White"
                         FontSize="18" Cursor="Hand" BorderThickness="0" Padding="5"/>
 
-                <Button Content="Hàng hóa" Click="btnObject_Click" Background="Transparent" Foreground="White"
+                <Button Content="Vật tư" Click="btnObject_Click" Background="Transparent" Foreground="White"
                         FontSize="18" Cursor="Hand" BorderThickness="0" Padding="5"/>
                 
-                <Button Content="Đơn vị" Click="btnUnit_Click" Background="Transparent" Foreground="White"
+                <Button Content="Đơn vị/Danh mục" Click="btnUnit_Click" Background="Transparent" Foreground="White"
                         FontSize="18" Cursor="Hand" BorderThickness="0" Padding="5"/>
 
                 <Button Content="Nhập kho" Click="btnInput_Click" Background="Transparent" Foreground="White"

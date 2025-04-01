@@ -9,6 +9,7 @@ namespace QuanLyKho.UserControlAT
         public UserControlBarUC()
         {
             InitializeComponent();
+            ContentArea.Content = new ProductView();
         }
 
         private void btnEmployee_Click(object sender, RoutedEventArgs e)

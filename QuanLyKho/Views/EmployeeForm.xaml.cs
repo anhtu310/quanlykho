@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using QuanLyKho.Data;
 using QuanLyKho.Models;
 
 namespace QuanLyKho.Views
@@ -21,8 +22,8 @@ namespace QuanLyKho.Views
     /// </summary>
     public partial class EmployeeForm : UserControl
     {
-        private Employee _currentEmployee;
-        public Action OnEmployeeUpdated;
+        private Employee? _currentEmployee;
+        public Action? OnEmployeeUpdated;
 
         public EmployeeForm(Employee employee = null)
         {

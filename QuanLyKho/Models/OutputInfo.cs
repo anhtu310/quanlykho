@@ -17,6 +17,8 @@ public partial class OutputInfo
 
     public int IdCustomer { get; set; }
 
+    public byte[]? ContractImage { get; set; }
+
     public string? Status { get; set; }
 
     public virtual Customer IdCustomerNavigation { get; set; } = null!;

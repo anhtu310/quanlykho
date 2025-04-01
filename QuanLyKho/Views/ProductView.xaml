@@ -4,16 +4,20 @@
                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  mc:Ignorable="d"
-                 d:DesignHeight="500" d:DesignWidth="800">
+                 d:DesignHeight="600" d:DesignWidth="800">
 
     <Border Background="White" CornerRadius="10" Padding="20" BorderBrush="#ddd" BorderThickness="1">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <!-- Thanh tìm kiếm -->
+                <RowDefinition Height="2*"/>
+                <!-- Danh sách sản phẩm -->
+                <RowDefinition Height="1*"/>
+                <!-- Danh sách nhà cung cấp -->
             </Grid.RowDefinitions>
 
-            <!-- Search and Add Button Row -->
+            <!-- Tìm kiếm và Thêm sản phẩm -->
             <Grid Margin="0,0,0,10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -37,29 +41,23 @@
                             Cursor="Hand" BorderThickness="0" Click="AddProduct_Click"/>
             </Grid>
 
-            <!-- ListView -->
-            <ListView Grid.Row="1" Name="lvProduct" BorderBrush="#ccc" BorderThickness="1" Background="White" Margin="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <!-- Danh sách Sản phẩm -->
+            <ListView Grid.Row="1" Name="lvProduct" BorderBrush="#ccc" BorderThickness="1" Background="White" 
+                      SelectionChanged="lvProduct_SelectionChanged" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="50"/>
                         <GridViewColumn Header="Tên sản phẩm" DisplayMemberBinding="{Binding Name}" Width="150"/>
-
-                        <!-- Hiển thị tên nhà cung cấp -->
-                        <GridViewColumn Header="Nhà cung cấp" DisplayMemberBinding="{Binding IdSupplierNavigation.Name}" Width="150"/>
-
-                        <GridViewColumn Header="Số lượng" DisplayMemberBinding="{Binding Quantity}" Width="100"/>
-
-                        <!-- Hiển thị tên đơn vị -->
+                        <GridViewColumn Header="Danh mục" DisplayMemberBinding="{Binding Category.Name}" Width="120"/>
+                        <GridViewColumn Header="Số lượng" DisplayMemberBinding="{Binding Quantity, StringFormat='{}{0:N0}'}" Width="100"/>
                         <GridViewColumn Header="Đơn vị" DisplayMemberBinding="{Binding IdUnitNavigation.Name}" Width="100"/>
-
                         <GridViewColumn Header="Hành động" Width="250">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                         <Button Content="✏️ Sửa" Background="#f39c12" Foreground="White" FontSize="12" Padding="6" 
-                                                    Margin="0,0,5,0" Cursor="Hand" BorderThickness="0" Click="EditProduct_Click"/>
+                                                Margin="0,0,5,0" Cursor="Hand" BorderThickness="0" Click="EditProduct_Click"/>
                                         <Button Content="🗑️ Xóa" Background="#e74c3c" Foreground="White" FontSize="12" Padding="6" 
-                                                    Cursor="Hand" BorderThickness="0" Click="DeleteProduct_Click"/>
+                                                Cursor="Hand" BorderThickness="0" Click="DeleteProduct_Click"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -67,6 +65,22 @@
                     </GridView>
                 </ListView.View>
             </ListView>
+
+            <!-- Danh sách Nhà cung cấp + Giá nhập -->
+            <ListView Grid.Row="2" Name="lvSuppliers" BorderBrush="#ccc" BorderThickness="1" Background="White" Margin="0,10,0,0">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Nhà cung cấp" DisplayMemberBinding="{Binding SupplierName}" Width="200"/>
+                        <GridViewColumn Header="Địa chỉ" DisplayMemberBinding="{Binding SupplierAddress}" Width="200"/>
+                        <GridViewColumn Header="Email" DisplayMemberBinding="{Binding SupplierEmail}" Width="150"/>
+                        <GridViewColumn Header="Số điện thoại" DisplayMemberBinding="{Binding SupplierPhone}" Width="150"/>
+                        <GridViewColumn Header="Số lượng nhập" DisplayMemberBinding="{Binding Count, StringFormat='{}{0:N0}'}" Width="100"/>
+                        <GridViewColumn Header="Giá nhập" DisplayMemberBinding="{Binding InputPrice, StringFormat='{}{0:N0}'}" Width="100"/>
+                        <GridViewColumn Header="Ngày nhập" DisplayMemberBinding="{Binding DateInput}" Width="120"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
         </Grid>
     </Border>
 </UserControl>

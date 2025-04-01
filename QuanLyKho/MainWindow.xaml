@@ -7,7 +7,7 @@
         WindowStyle="None"
         xmlns:uc="clr-namespace:QuanLyKho.UserControlAT"
         mc:Ignorable="d"
-        Title="MainWindow" Height="auto" Width="auto">
+        Title="MainWindow" Height="auto" Width="1300">
     <Grid>
         <uc:UserControlBarUC/>
     </Grid>
