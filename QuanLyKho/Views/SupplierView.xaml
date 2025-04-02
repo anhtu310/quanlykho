@@ -44,28 +44,17 @@
             </Grid>
 
             <!-- ListView -->
-            <ListView Grid.Row="1" Name="lvSupplier" BorderBrush="#ccc" BorderThickness="1" Background="White" Margin="0">
-                <ListView.Resources>
-                    <Style TargetType="GridViewColumnHeader">
-                        <Setter Property="FontWeight" Value="SemiBold"/>
-                        <Setter Property="FontSize" Value="14"/>
-                        <Setter Property="Background" Value="#ecf0f1"/>
-                        <Setter Property="Padding" Value="8"/>
-                        <Setter Property="BorderBrush" Value="#ccc"/>
-                        <Setter Property="BorderThickness" Value="0,0,0,1"/>
-                    </Style>
-                </ListView.Resources>
+            <ListView HorizontalContentAlignment="Center" Grid.Row="1" Name="lvSupplier" BorderBrush="#ccc" BorderThickness="1" Background="White">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="50"/>
-                        <GridViewColumn Header="Tên nhà cung cấp" DisplayMemberBinding="{Binding Name}" Width="180"/>
-                        <GridViewColumn Header="Địa chỉ" DisplayMemberBinding="{Binding Address}" Width="200"/>
-                        <GridViewColumn Header="Số điện thoại" DisplayMemberBinding="{Binding Phone}" Width="120"/>
-                        <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="180"/>
-                        <GridViewColumn Header="Ngày liên hệ" DisplayMemberBinding="{Binding ContactDate}" Width="140"/>
-                        <GridViewColumn Header="Thông tin thêm" DisplayMemberBinding="{Binding MoreInfo}" Width="250"/>
+                        <GridViewColumn Header="Tên nhà cung cấp" DisplayMemberBinding="{Binding Name}" Width="auto"/>
+                        <GridViewColumn Header="Địa chỉ" DisplayMemberBinding="{Binding Address}" Width="auto"/>
+                        <GridViewColumn Header="Số điện thoại" DisplayMemberBinding="{Binding Phone}" Width="auto"/>
+                        <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="auto"/>
+                        <GridViewColumn Header="Ngày liên hệ" DisplayMemberBinding="{Binding ContactDate}" Width="auto"/>
+                        <GridViewColumn Header="Ghi chú" DisplayMemberBinding="{Binding MoreInfo}" Width="auto"/>
 
-                        <GridViewColumn Header="Hành động" Width="250">
+                        <GridViewColumn Header="Hành động" Width="auto">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">

@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
 D:\Desktop\ManageKho\QuanLyKho\QuanLyKho\App.xaml
-15-1958588496
+16-1989333405
 
-38-2012723117
-229184857310
-LoginWindow.xaml;MainWindow.xaml;ResourceXAML\MainResource.xaml;UserControlBarAT\UserControlBarUC.xaml;Views\CustomerForm.xaml;Views\CustomerView.xaml;Views\EmployeeForm.xaml;Views\EmployeeView.xaml;Views\InputInfoForm.xaml;Views\InputView.xaml;Views\ProductForm.xaml;Views\ProductView.xaml;Views\SupplierForm.xaml;Views\SupplierView.xaml;Views\UnitView.xaml;
+40-1712919597
+231-406460527
+LoginWindow.xaml;MainWindow.xaml;ResourceXAML\MainResource.xaml;UserControlBarAT\UserControlBarUC.xaml;Views\CategoryView.xaml;Views\CustomerForm.xaml;Views\CustomerView.xaml;Views\EmployeeForm.xaml;Views\EmployeeView.xaml;Views\InputInfoForm.xaml;Views\InputView.xaml;Views\ProductForm.xaml;Views\ProductView.xaml;Views\SupplierForm.xaml;Views\SupplierView.xaml;Views\UnitView.xaml;
 
 False
 

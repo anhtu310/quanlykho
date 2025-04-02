@@ -77,7 +77,7 @@ namespace QuanLyKho.Views
 
             if (customer.Id == 0)
             {
-                customer.ContactDate = DateOnly.FromDateTime(DateTime.Now);
+                customer.ContactDate = DateTime.Now;
                 context.Customers.Add(customer);
             }
             else

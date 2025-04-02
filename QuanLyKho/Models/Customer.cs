@@ -15,7 +15,7 @@ public partial class Customer
 
     public string? Phone { get; set; }
 
-    public DateOnly? ContactDate { get; set; }
+    public DateTime? ContactDate { get; set; }
 
     public string? MoreInfo { get; set; }
 

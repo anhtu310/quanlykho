@@ -26,41 +26,7 @@ namespace QuanLyKho.Views
         {
             lvInput.ItemsSource = _context.Inputs.ToList();
             lvInputInfo.ItemsSource = null;
-        }
-
-        private void SearchInputs()
-        {
-            string keyword = SearchTextBox.Text.Trim();
-
-            if (string.IsNullOrEmpty(keyword))
-            {
-                LoadInputs();
-                return;
-            }
-
-            if (DateTime.TryParse(keyword, out DateTime searchDate))
-            {
-                lvInput.ItemsSource = _context.Inputs
-                    .Where(i => i.DateInput == searchDate.Date)
-                    .ToList();
-            }
-            else
-            {
-                MessageBox.Show("Vui lòng nhập ngày hợp lệ (YYYY-MM-DD)", "Lỗi tìm kiếm", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
-        }
-
-        private void SearchTextBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                SearchInputs();
-            }
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            SearchInputs();
+            FilterButton_Click(null, null);
         }
 
         private void lvInput_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -321,6 +287,51 @@ namespace QuanLyKho.Views
                     }
                 }
             }
+        }
+
+        private void FilterInputs(DateTime? startDate, DateTime? endDate)
+        {
+            try
+            {
+                var query = _context.Inputs.AsQueryable();
+
+                if (startDate.HasValue)
+                    query = query.Where(i => i.DateInput >= startDate.Value.Date);
+
+                if (endDate.HasValue)
+                    query = query.Where(i => i.DateInput <= endDate.Value.Date.AddDays(1).AddTicks(-1));
+
+                var filteredInputs = query.ToList();
+                lvInput.ItemsSource = filteredInputs;
+
+                // Đặt lại selection để kích hoạt lvInput_SelectionChanged
+                if (filteredInputs.Count > 0)
+                {
+                    lvInput.SelectedItem = filteredInputs.First(); // Chọn item đầu tiên
+                }
+                else
+                {
+                    lvInputInfo.ItemsSource = null; // Nếu không có kết quả, xóa danh sách chi tiết
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi lọc dữ liệu: {ex.Message}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void FilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            DateTime? startDate = dpStartDate.SelectedDate;
+            DateTime? endDate = dpEndDate.SelectedDate;
+
+            if (startDate.HasValue && endDate.HasValue && startDate > endDate)
+            {
+                MessageBox.Show("Ngày bắt đầu phải nhỏ hơn hoặc bằng ngày kết thúc", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            FilterInputs(startDate, endDate);
         }
     }
 }

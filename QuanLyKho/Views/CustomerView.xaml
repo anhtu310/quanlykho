@@ -38,31 +38,30 @@
             </Grid>
 
             <!-- ListView -->
-            <ListView Grid.Row="1" Name="lvCustomer" BorderBrush="#ccc" BorderThickness="1" Background="White" Margin="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="50"/>
-                        <GridViewColumn Header="Tên khách hàng" DisplayMemberBinding="{Binding Name}" Width="150"/>
-                        <GridViewColumn Header="Địa chỉ" DisplayMemberBinding="{Binding Address}" Width="150"/>
-                        <GridViewColumn Header="Số điện thoại" DisplayMemberBinding="{Binding Phone}" Width="110"/>
-                        <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="160"/>
-                        <GridViewColumn Header="Ngày liên hệ" DisplayMemberBinding="{Binding ContactDate}" Width="120"/>
-                        <GridViewColumn Header="Ghi chú" DisplayMemberBinding="{Binding MoreInfo}" Width="200"/>
+            <ListView Grid.Row="1" Name="lvCustomer" BorderBrush="#ccc" BorderThickness="1" Background="White" Margin="0" HorizontalContentAlignment="Center">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Tên khách hàng" DisplayMemberBinding="{Binding Name}" Width="auto"/>
+                    <GridViewColumn Header="Địa chỉ" DisplayMemberBinding="{Binding Address}" Width="auto"/>
+                    <GridViewColumn Header="Số điện thoại" DisplayMemberBinding="{Binding Phone}" Width="auto"/>
+                    <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="auto"/>
+                    <GridViewColumn Header="Ngày liên hệ" DisplayMemberBinding="{Binding ContactDate}" Width="auto"/>
+                    <GridViewColumn Header="Ghi chú" DisplayMemberBinding="{Binding MoreInfo}" Width="auto"/>
 
-                        <GridViewColumn Header="Hành động" Width="250">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <Button Content="✏️ Sửa" Background="#f39c12" Foreground="White" FontSize="12" Padding="6" 
+                    <GridViewColumn Header="Hành động" Width="auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <Button Content="✏️ Sửa" Background="#f39c12" Foreground="White" FontSize="12" Padding="6" 
                                                 Margin="0,0,5,0" Cursor="Hand" BorderThickness="0" Click="EditCustomer_Click"/>
-                                        <Button Content="🗑️ Xóa" Background="#e74c3c" Foreground="White" FontSize="12" Padding="6" 
+                                    <Button Content="🗑️ Xóa" Background="#e74c3c" Foreground="White" FontSize="12" Padding="6" 
                                                 Cursor="Hand" BorderThickness="0" Click="DeleteCustomer_Click"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                    </GridView>
-                </ListView.View>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
             </ListView>
         </Grid>
     </Border>

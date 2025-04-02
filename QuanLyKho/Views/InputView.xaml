@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
              d:DesignHeight="500" d:DesignWidth="800">
 
@@ -10,8 +11,8 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="2*"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
             <!-- Search and Add Button -->
@@ -22,17 +23,33 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <Border Grid.Column="0" Background="#f8f9fa" CornerRadius="5" BorderBrush="#ddd" BorderThickness="1" Height="40" Width="300" HorizontalAlignment="Left">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                        <TextBox x:Name="SearchTextBox" BorderThickness="0" Background="Transparent" Padding="8,4" FontSize="14" VerticalContentAlignment="Center" KeyDown="SearchTextBox_KeyDown"/>
-                        <Button Grid.Column="1" Content="🔍" Background="LightGray" Foreground="#7f8c8d" FontSize="14" Padding="8,0" Cursor="Hand" BorderThickness="0" ToolTip="Tìm kiếm" Click="Button_Click"/>
-                    </Grid>
-                </Border>
+                    <DatePicker Grid.Column="0" Margin="20 0 0 0"
+            x:Name="dpStartDate"
+            Width="auto"
+            materialDesign:HintAssist.Hint="Ngày bắt đầu"
+            Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
+
+                    <DatePicker Grid.Column="1" Margin="20 0 0 0"
+            x:Name="dpEndDate"
+            Width="auto"
+            materialDesign:HintAssist.Hint="Ngày kết thúc"
+            Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
+
+                    <Button Grid.Column="2" Margin="20 0 0 0"
+        Style="{StaticResource MaterialDesignRaisedButton}"
+        Width="auto"
+        Click="FilterButton_Click"
+        ToolTip="Resource name: MaterialDesignRaisedButton">
+                        Lọc
+                    </Button>
+                </Grid>
 
                 <Button Grid.Column="1" Content="➕ Thêm phiếu nhập" Width="180" Height="40" Background="#27AE60" Foreground="White"
                         FontSize="14" FontWeight="SemiBold" HorizontalAlignment="Right" 
@@ -40,10 +57,9 @@
             </Grid>
 
             <!-- Danh sách phiếu nhập -->
-            <ListView Grid.Row="1" Name="lvInput" SelectionChanged="lvInput_SelectionChanged">
+            <ListView Grid.Row="1" Name="lvInput" SelectionChanged="lvInput_SelectionChanged" HorizontalContentAlignment="Center">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="50"/>
                         <GridViewColumn Header="Ngày nhập" DisplayMemberBinding="{Binding DateInput, StringFormat='{}{0:dd/MM/yyyy}'}" Width="150"/>
 
                         <GridViewColumn Header="Action" Width="250">
@@ -64,14 +80,14 @@
             </ListView>
 
             <!-- Danh sách chi tiết phiếu nhập -->
-            <ListView Grid.Row="2" Name="lvInputInfo" BorderBrush="#ccc" BorderThickness="1" Background="White" Margin="0">
+            <ListView HorizontalAlignment="Center" HorizontalContentAlignment="Center" Grid.Row="2" Name="lvInputInfo" BorderBrush="#ccc" BorderThickness="1" Background="White" Margin="0">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Hợp đồng" Width="120">
+                        <GridViewColumn Header="Hợp đồng" Width="130">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                        <Image Source="{Binding ImageSource}" Width="100" Height="100"/>
+                                        <Image Source="{Binding ImageSource}" Width="auto" Height="100"/>
                                         <Button Content="Xem hợp đồng" Width="100" Height="30" Background="#2980B9" Foreground="White" FontSize="12"
                                                 FontWeight="SemiBold" Cursor="Hand" BorderThickness="0" Margin="10,5,0,0" Click="ViewContractButton_Click"/>
                                     </StackPanel>
@@ -79,12 +95,12 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
-                        <GridViewColumn Header="Sản phẩm" DisplayMemberBinding="{Binding ProductName}" Width="150"/>
-                        <GridViewColumn Header="Nhà cung cấp" DisplayMemberBinding="{Binding Supplier}" Width="120"/>
-                        <GridViewColumn Header="Số lượng" DisplayMemberBinding="{Binding Count, StringFormat='{}{0:N0}'}" Width="100"/>
-                        <GridViewColumn Header="Giá nhập" DisplayMemberBinding="{Binding InputPrice, StringFormat='{}{0:N0}'}" Width="100"/>
-                        <GridViewColumn Header="Giá xuất" DisplayMemberBinding="{Binding OutputPrice, StringFormat='{}{0:N0}'}" Width="100"/>
-                        <GridViewColumn Header="Trạng thái" DisplayMemberBinding="{Binding Status}" Width="120"/>
+                        <GridViewColumn Header="Sản phẩm" DisplayMemberBinding="{Binding ProductName}" Width="auto"/>
+                        <GridViewColumn Header="Nhà cung cấp" DisplayMemberBinding="{Binding Supplier}" Width="auto"/>
+                        <GridViewColumn Header="Số lượng" DisplayMemberBinding="{Binding Count, StringFormat='{}{0:N0}'}" Width="auto"/>
+                        <GridViewColumn Header="Giá nhập" DisplayMemberBinding="{Binding InputPrice, StringFormat='{}{0:N0}'}" Width="auto"/>
+                        <GridViewColumn Header="Giá xuất" DisplayMemberBinding="{Binding OutputPrice, StringFormat='{}{0:N0}'}" Width="auto"/>
+                        <GridViewColumn Header="Trạng thái" DisplayMemberBinding="{Binding Status}" Width="auto"/>
 
                         <GridViewColumn Header="Hành động" Width="150">
                             <GridViewColumn.CellTemplate>

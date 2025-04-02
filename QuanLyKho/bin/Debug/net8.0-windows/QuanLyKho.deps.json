@@ -9,6 +9,8 @@
       "QuanLyKho/1.0.0": {
         "dependencies": {
           "CommunityToolkit.Mvvm": "8.4.0",
+          "MaterialDesignColors": "2.0.0",
+          "MaterialDesignThemes": "4.0.0",
           "Microsoft.EntityFrameworkCore": "9.0.3",
           "Microsoft.EntityFrameworkCore.Design": "9.0.3",
           "Microsoft.EntityFrameworkCore.SqlServer": "9.0.3",
@@ -66,6 +68,25 @@
           "lib/net6.0/Humanizer.dll": {
             "assemblyVersion": "2.14.0.0",
             "fileVersion": "2.14.1.48190"
+          }
+        }
+      },
+      "MaterialDesignColors/2.0.0": {
+        "runtime": {
+          "lib/netcoreapp3.1/MaterialDesignColors.dll": {
+            "assemblyVersion": "2.0.0.2422",
+            "fileVersion": "2.0.0.2422"
+          }
+        }
+      },
+      "MaterialDesignThemes/4.0.0": {
+        "dependencies": {
+          "MaterialDesignColors": "2.0.0"
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/MaterialDesignThemes.Wpf.dll": {
+            "assemblyVersion": "4.0.0.2422",
+            "fileVersion": "4.0.0.2422"
           }
         }
       },
@@ -1000,6 +1021,20 @@
       "sha512": "sha512-lQKvtaTDOXnoVJ20ibTuSIOf2i0uO0MPbDhd1jm238I+U/2ZnRENj0cktKZhtchBMtCUSRQ5v4xBCUbKNmyVMw==",
       "path": "humanizer.core/2.14.1",
       "hashPath": "humanizer.core.2.14.1.nupkg.sha512"
+    },
+    "MaterialDesignColors/2.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-+JoghC3QRK0u9Wul1To1ORjcfTbFTVzFPjJ02H7VREOdNzIIn427e8G9gP9hXu9pm1r2OneLnoCG/lTma5cG2w==",
+      "path": "materialdesigncolors/2.0.0",
+      "hashPath": "materialdesigncolors.2.0.0.nupkg.sha512"
+    },
+    "MaterialDesignThemes/4.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-+n5oWHuRiYL/gUw2XfQHCRZqHtU8KbrdurgU0IcO98Zsyhw4BvggodfXY8veRtbjjmM9EJ/sG2yKBrgPOGX4JQ==",
+      "path": "materialdesignthemes/4.0.0",
+      "hashPath": "materialdesignthemes.4.0.0.nupkg.sha512"
     },
     "Microsoft.Bcl.AsyncInterfaces/7.0.0": {
       "type": "package",
