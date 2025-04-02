@@ -34,6 +34,7 @@ namespace QuanLyKho.Views
             txtQuantity.Text = product.Quantity.ToString("N0");
             cmbUnit.SelectedValue = product.IdUnit;
             cmbCategory.SelectedValue = product.CategoryId;
+            txtWarning.Text = product.WarningQuantity?.ToString("N0");
         }
 
         private void LoadData()
@@ -64,18 +65,26 @@ namespace QuanLyKho.Views
                 MessageBox.Show("Tên sản phẩm không được để trống!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
+            if (!string.IsNullOrWhiteSpace(txtWarning.Text) && !int.TryParse(txtWarning.Text, out _))
+            {
+                MessageBox.Show("Số lượng cảnh báo phải là số nguyên!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
 
             product.Name = txtName.Text.Trim();
-            product.Quantity = 0;
+            product.WarningQuantity = int.TryParse(txtWarning.Text, out var warningQty) ? warningQty : (int?)null;
             product.IdUnit = (int)cmbUnit.SelectedValue;
             product.CategoryId = (int?)cmbCategory.SelectedValue;
 
+            // Chỉ đặt Quantity = 0 khi tạo mới (Id == 0)
             if (product.Id == 0)
             {
+                product.Quantity = 0;
                 context.Products.Add(product);
             }
             else
             {
+                // Khi chỉnh sửa, Quantity giữ nguyên giá trị hiện tại
                 context.Entry(product).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             }
 
@@ -90,7 +99,6 @@ namespace QuanLyKho.Views
                 MessageBox.Show($"Lỗi khi lưu sản phẩm: {ex.Message}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             Window.GetWindow(this)?.Close();

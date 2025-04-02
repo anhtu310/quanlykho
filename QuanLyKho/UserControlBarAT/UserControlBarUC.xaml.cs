@@ -11,6 +11,44 @@ namespace QuanLyKho.UserControlAT
         {
             InitializeComponent();
             ContentArea.Content = new ProductView();
+
+        }
+
+        private void MenuToggleButton_Click(object sender, RoutedEventArgs e)
+        {
+            OptionMenu.IsOpen = MenuToggleButton.IsChecked ?? false;
+        }
+
+        private void StatisticsButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Mở cửa sổ thống kê
+            var statisticsWindow = new StatisticsWindow();
+            statisticsWindow.Show();
+
+            // Đóng popup menu
+            OptionMenu.IsOpen = false;
+            MenuToggleButton.IsChecked = false;
+        }
+
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Xử lý đăng xuất
+            var result = MessageBox.Show("Bạn có chắc chắn muốn đăng xuất?", "Xác nhận",
+                                       MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                // Thực hiện đăng xuất
+                var loginWindow = new LoginWindow();
+                loginWindow.Show();
+
+                // Đóng cửa sổ hiện tại
+                Window.GetWindow(this)?.Close();
+            }
+
+            // Đóng popup menu
+            OptionMenu.IsOpen = false;
+            MenuToggleButton.IsChecked = false;
         }
 
         private void btnEmployee_Click(object sender, RoutedEventArgs e)
@@ -45,7 +83,7 @@ namespace QuanLyKho.UserControlAT
 
         private void btnOutput_Click(object sender, RoutedEventArgs e)
         {
-            // ContentArea.Content = new OutputView();
+            ContentArea.Content = new OutputView();
             txtTitle.Text = "Quản lý xuất kho";
         }
 

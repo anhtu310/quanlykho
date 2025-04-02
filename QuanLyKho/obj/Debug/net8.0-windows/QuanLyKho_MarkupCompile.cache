@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 D:\Desktop\ManageKho\QuanLyKho\QuanLyKho\App.xaml
-16-1989333405
+191292918308
 
-38-798177664
-231-406460527
-LoginWindow.xaml;MainWindow.xaml;ResourceXAML\MainResource.xaml;UserControlBarAT\UserControlBarUC.xaml;Views\CategoryView.xaml;Views\CustomerForm.xaml;Views\CustomerView.xaml;Views\EmployeeForm.xaml;Views\EmployeeView.xaml;Views\InputInfoForm.xaml;Views\InputView.xaml;Views\ProductForm.xaml;Views\ProductView.xaml;Views\SupplierForm.xaml;Views\SupplierView.xaml;Views\UnitView.xaml;
+41889492181
+240863008002
+LoginWindow.xaml;MainWindow.xaml;ResourceXAML\MainResource.xaml;UserControlBarAT\UserControlBarUC.xaml;Views\CategoryView.xaml;Views\CustomerForm.xaml;Views\CustomerView.xaml;Views\EmployeeForm.xaml;Views\EmployeeView.xaml;Views\InputInfoForm.xaml;Views\InputView.xaml;Views\OutputInfoForm.xaml;Views\OutputView.xaml;Views\ProductForm.xaml;Views\ProductView.xaml;Views\StatisticsWindow.xaml;Views\SupplierForm.xaml;Views\SupplierView.xaml;Views\UnitView.xaml;
 
 False
 

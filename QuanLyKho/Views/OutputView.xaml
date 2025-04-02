@@ -1,0 +1,152 @@
+﻿<UserControl x:Class="QuanLyKho.Views.OutputView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             d:DesignHeight="500" d:DesignWidth="800">
+
+    <Border Background="White" CornerRadius="10" Padding="20" BorderBrush="#ddd" BorderThickness="1">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Search and Add Button -->
+            <Grid Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <DatePicker Grid.Column="0" Margin="20 0 0 0"
+                        x:Name="dpStartDate"
+                        Width="auto"
+                        materialDesign:HintAssist.Hint="Ngày bắt đầu"
+                        Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
+
+                    <DatePicker Grid.Column="1" Margin="20 0 0 0"
+                        x:Name="dpEndDate"
+                        Width="auto"
+                        materialDesign:HintAssist.Hint="Ngày kết thúc"
+                        Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
+
+                    <Button Grid.Column="2" Margin="20 0 0 0"
+                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        Width="auto"
+                        Click="FilterButton_Click"
+                        ToolTip="Resource name: MaterialDesignRaisedButton">
+                        Lọc
+                    </Button>
+                </Grid>
+
+                <Button Grid.Column="1" Content="➕ Thêm phiếu xuất" Width="180" Height="40" Background="#27AE60" Foreground="White"
+                        FontSize="14" FontWeight="SemiBold" HorizontalAlignment="Right" 
+                        Cursor="Hand" BorderThickness="0" Click="AddOutput_Click"/>
+            </Grid>
+
+            <!-- Danh sách phiếu xuất -->
+            <ListView Grid.Row="1" Name="lvOutput" SelectionChanged="lvOutput_SelectionChanged" HorizontalContentAlignment="Center">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Ngày xuất" DisplayMemberBinding="{Binding DateOutput, StringFormat='{}{0:dd/MM/yyyy}'}" Width="150"/>
+
+                        <GridViewColumn Header="Action" Width="250">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <Button Content="➕ Thêm chi tiết" MinWidth="120" Height="30" Background="#2980B9" Foreground="White"
+                                                FontSize="14" FontWeight="SemiBold" Cursor="Hand" BorderThickness="0" Margin="0,0,10,0" Click="AddOutputInfo_Click"/>
+                                        <Button Content="❌ Xóa" MinWidth="80" Height="30" Background="red" Foreground="White"
+                                                FontSize="14" FontWeight="SemiBold" Cursor="Hand" BorderThickness="0" 
+                                                Click="DeleteOutput_Click"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <!-- Danh sách chi tiết phiếu xuất -->
+            <ListView HorizontalAlignment="Center" HorizontalContentAlignment="Center" Grid.Row="2" Name="lvOutputInfo" BorderBrush="#ccc" BorderThickness="1" Background="White" Margin="0">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Hóa đơn" Width="auto">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <Image Source="{Binding ImageSource}" Width="auto" Height="100"/>
+                                        <Button Content="Xem hóa đơn" Width="auto" Height="30" Background="#2980B9" Foreground="White" FontSize="12"
+                                                FontWeight="SemiBold" Cursor="Hand" BorderThickness="0" Margin="10,5,0,0" Click="ViewInvoiceButton_Click"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn Header="Sản phẩm" DisplayMemberBinding="{Binding ProductName}" Width="auto"/>
+                        <GridViewColumn Header="Khách hàng" DisplayMemberBinding="{Binding Customer}" Width="auto"/>
+                        <GridViewColumn Header="Số lượng" DisplayMemberBinding="{Binding Count, StringFormat='{}{0:N0}'}" Width="auto"/>
+                        <GridViewColumn Header="Giá xuất" DisplayMemberBinding="{Binding OutputPrice, StringFormat='{}{0:N0}'}" Width="auto"/>
+                        <GridViewColumn Header="Trạng thái" DisplayMemberBinding="{Binding Status}" Width="auto"/>
+
+                        <GridViewColumn Header="Hành động" Width="150">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <Button Content="✏️ Sửa" Background="#f39c12" Foreground="White" FontSize="12" Padding="6" Margin="0,0,5,0" Cursor="Hand" BorderThickness="0" Click="EditOutputInfo_Click"/>
+                                        <Button Content="🗑️ Xóa" Background="#e74c3c" Foreground="White" FontSize="12" Padding="6" Cursor="Hand" BorderThickness="0" Click="DeleteOutputInfo_Click"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <!-- Popup hiển thị ảnh hóa đơn -->
+            <Popup Name="ImagePopup" 
+                   StaysOpen="False" 
+                   Placement="Center" 
+                   PlacementTarget="{Binding ElementName=ZoomedImage}"
+                   AllowsTransparency="True"
+                   PopupAnimation="Fade">
+                <Border Background="White" 
+                        BorderBrush="#ddd" 
+                        BorderThickness="1" 
+                        Padding="10"
+                        CornerRadius="5">
+                    <Grid>
+                        <Image Name="ZoomedImage" 
+                               Stretch="Uniform" 
+                               Width="800" 
+                               Height="700"/>
+                        <Button Content="✕" 
+                                HorizontalAlignment="Right" 
+                                VerticalAlignment="Top"
+                                Margin="5" 
+                                Width="30" 
+                                Height="30"
+                                Background="Transparent" 
+                                BorderThickness="0"
+                                FontWeight="Bold"
+                                Foreground="Red"
+                                Click="ClosePopup_Click"/>
+                    </Grid>
+                </Border>
+            </Popup>
+
+        </Grid>
+    </Border>
+</UserControl>

@@ -4,11 +4,63 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:QuanLyKho"
-        WindowStyle="None"
         xmlns:uc="clr-namespace:QuanLyKho.UserControlAT"
+        xmlns:media="clr-namespace:System.Windows.Media;assembly=PresentationCore"
+        WindowStyle="None"
         mc:Ignorable="d"
         Title="MainWindow" Height="auto" Width="1300">
     <Grid>
+        <!-- UserControl chính -->
         <uc:UserControlBarUC/>
+
+        <!-- Nút cảnh báo với hiệu ứng nhấp nháy -->
+        <Button x:Name="btnWarning" 
+                Content="⚠" 
+                FontWeight="Bold"
+                FontSize="40"
+                Width="100"
+                Height="60"
+                Visibility="Collapsed" 
+                Click="btnWarning_Click"
+                ToolTip="Có sản phẩm sắp hết hàng"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Margin="0,0,20,60"
+                BorderThickness="0"
+                Background="Transparent"
+                Cursor="Hand"
+                Panel.ZIndex="999">
+            <Button.RenderTransform>
+                <TranslateTransform Y="-30"/>
+            </Button.RenderTransform>
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Foreground" Value="Red"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsVisible" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard RepeatBehavior="Forever">
+                                        <!-- Hiệu ứng nhấp nháy màu -->
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Foreground).(SolidColorBrush.Color)">
+                                            <LinearColorKeyFrame Value="Red" KeyTime="0:0:0"/>
+                                            <LinearColorKeyFrame Value="DarkRed" KeyTime="0:0:0.5"/>
+                                            <LinearColorKeyFrame Value="Red" KeyTime="0:0:1"/>
+                                        </ColorAnimationUsingKeyFrames>
+
+                                        <!-- Hiệu ứng phóng to nhỏ -->
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(RenderTransform).(TranslateTransform.Y)">
+                                            <LinearDoubleKeyFrame Value="-30" KeyTime="0:0:0"/>
+                                            <LinearDoubleKeyFrame Value="-35" KeyTime="0:0:0.5"/>
+                                            <LinearDoubleKeyFrame Value="-30" KeyTime="0:0:1"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
     </Grid>
 </Window>

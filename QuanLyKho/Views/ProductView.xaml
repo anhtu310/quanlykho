@@ -49,6 +49,7 @@
                         <GridViewColumn Header="Tên sản phẩm" DisplayMemberBinding="{Binding Name}" Width="auto"/>
                         <GridViewColumn Header="Danh mục" DisplayMemberBinding="{Binding Category.Name}" Width="auto"/>
                         <GridViewColumn Header="Số lượng" DisplayMemberBinding="{Binding Quantity, StringFormat='{}{0:N0}'}" Width="auto"/>
+                        <GridViewColumn Header="Số lượng cảnh báo" DisplayMemberBinding="{Binding WarningQuantity, StringFormat='{}{0:N0}'}" Width="auto"/>
                         <GridViewColumn Header="Đơn vị" DisplayMemberBinding="{Binding IdUnitNavigation.Name}" Width="auto"/>
                         <GridViewColumn Header="Hành động" Width="auto">
                             <GridViewColumn.CellTemplate>

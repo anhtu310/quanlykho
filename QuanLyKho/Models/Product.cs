@@ -13,11 +13,12 @@ public partial class Product
 
     public int Quantity { get; set; }
 
+    public int? WarningQuantity { get; set; }
+
     public int? CategoryId { get; set; }
 
-    public virtual Category? Category { get; set; }
-
     public virtual Unit IdUnitNavigation { get; set; } = null!;
+    public virtual Category? Category { get; set; }
 
     public virtual ICollection<OutputInfo> OutputInfos { get; set; } = new List<OutputInfo>();
 

@@ -178,6 +178,9 @@ public partial class QuanlyKhoDbContext : DbContext
 
             entity.Property(e => e.Name).HasMaxLength(100);
 
+            // Thêm dòng này cho WarningQuantity (có thể nullable)
+            entity.Property(e => e.WarningQuantity).HasColumnName("WarningQuantity");
+
             entity.HasOne(d => d.Category).WithMany(p => p.Products)
                 .HasForeignKey(d => d.CategoryId)
                 .HasConstraintName("FK__Product__Categor__33D4B598");
@@ -237,4 +240,13 @@ public partial class QuanlyKhoDbContext : DbContext
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+    // Thêm vào QuanlyKhoDbContext.cs hoặc tạo file mới ProductService.cs
+    public List<Product> GetLowStockProducts()
+    {
+        return this.Products
+            .Where(p => p.WarningQuantity.HasValue &&
+                       p.Quantity <= p.WarningQuantity.Value)
+            .ToList();
+    }
 }

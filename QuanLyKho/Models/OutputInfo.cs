@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using QuanLyKho.Helpers;
+using System.Windows.Media;
 
 namespace QuanLyKho.Models;
 
@@ -28,4 +30,11 @@ public partial class OutputInfo
     public virtual Output IdOutputNavigation { get; set; } = null!;
 
     public virtual Product IdProductNavigation { get; set; } = null!;
+    public ImageSource ImageSource
+    {
+        get
+        {
+            return ImageHelper.ConvertToImageSource(ContractImage);
+        }
+    }
 }

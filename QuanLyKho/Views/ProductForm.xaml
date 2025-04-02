@@ -17,6 +17,9 @@
             <TextBlock Text="Số lượng:" FontWeight="Bold"/>
             <TextBox x:Name="txtQuantity" Padding="5" IsReadOnly="True" Text="0"/>
 
+            <TextBlock Text="Số lượng cảnh báo:" FontWeight="Bold"/>
+            <TextBox x:Name="txtWarning" Padding="5"/>
+
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10,10,0,0">
                 <Button Margin="0,0,80,0" HorizontalAlignment="Left" Content="Lưu" Background="#27AE60" Foreground="White" Width="80"
                         Click="Save_Click"/>

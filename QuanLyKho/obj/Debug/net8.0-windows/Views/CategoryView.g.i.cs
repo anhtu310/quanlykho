@@ -61,7 +61,7 @@ namespace QuanLyKho.Views {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/QuanLyKho;component/views/categoryview.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/QuanLyKho;V1.0.0.0;component/views/categoryview.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Views\CategoryView.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

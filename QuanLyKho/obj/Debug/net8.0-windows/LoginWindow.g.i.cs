@@ -72,7 +72,7 @@ namespace QuanLyKho {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/QuanLyKho;component/loginwindow.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/QuanLyKho;V1.0.0.0;component/loginwindow.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\LoginWindow.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

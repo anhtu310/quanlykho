@@ -88,7 +88,7 @@
                                 <DataTemplate>
                                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
                                         <Image Source="{Binding ImageSource}" Width="auto" Height="100"/>
-                                        <Button Content="Xem hợp đồng" Width="100" Height="30" Background="#2980B9" Foreground="White" FontSize="12"
+                                        <Button Content="Xem hợp đồng" Width="auto" Height="30" Background="#2980B9" Foreground="White" FontSize="12"
                                                 FontWeight="SemiBold" Cursor="Hand" BorderThickness="0" Margin="10,5,0,0" Click="ViewContractButton_Click"/>
                                     </StackPanel>
                                 </DataTemplate>
