@@ -31,27 +31,75 @@
         <materialDesign:ColorZone Grid.Row="0" Mode="PrimaryMid">
             <DockPanel>
                 <ToolBarTray DockPanel.Dock="Right" Background="Transparent" Margin="5">
-                    <ToolBar Background="Transparent">
+                    <ToolBar Background="Transparent" Padding="0">
                         <!-- Minimize Button -->
-                        <Button Style="{x:Null}" Background="GreenYellow" Height="30" Width="50"
-                        ToolTip="Minimize Window"
-                        Click="MinimizeButton_Click">
-                            <materialDesign:PackIcon Kind="WindowMinimize" />
+                        <Button Style="{x:Null}" Height="30" Width="50" ToolTip="Minimize Window"
+                 Click="MinimizeButton_Click">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border x:Name="border" Background="Transparent" 
+                            CornerRadius="4" BorderThickness="0">
+                                        <materialDesign:PackIcon Kind="WindowMinimize" 
+                                Foreground="#607D8B" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="border" Property="Background" Value="#E0E0E0"/>
+                                            <Setter TargetName="border" Property="BorderBrush" Value="#B0BEC5"/>
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="True">
+                                            <Setter TargetName="border" Property="Background" Value="#B0BEC5"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
                         </Button>
 
                         <!-- Maximize/Restore Button -->
-                        <Button x:Name="MaximizeButton" Style="{x:Null}" Margin="20 0 20 0" 
-                        Background="GreenYellow" Height="30" Width="50"
-                        ToolTip="Maximize Window"
-                        Click="MaximizeButton_Click">
-                            <materialDesign:PackIcon Kind="WindowMaximize" />
+                        <Button x:Name="MaximizeButton" Style="{x:Null}" Height="30" Width="50" 
+                ToolTip="Maximize Window" Click="MaximizeButton_Click" Margin="10 0">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border x:Name="border" Background="Transparent" 
+                            CornerRadius="4" BorderThickness="0">
+                                        <materialDesign:PackIcon Kind="WindowMaximize" 
+                                Foreground="#607D8B" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="border" Property="Background" Value="#E0E0E0"/>
+                                            <Setter TargetName="border" Property="BorderBrush" Value="#B0BEC5"/>
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="True">
+                                            <Setter TargetName="border" Property="Background" Value="#B0BEC5"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
                         </Button>
 
                         <!-- Close Button -->
-                        <Button Background="OrangeRed" Style="{x:Null}" Height="30" Width="50"
-                        ToolTip="Close Window"
-                        Click="CloseButton_Click">
-                            <materialDesign:PackIcon Kind="WindowClose" />
+                        <Button Style="{x:Null}" Height="30" Width="50" ToolTip="Close Window"
+                Click="CloseButton_Click">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border x:Name="border" Background="Transparent" 
+                            CornerRadius="4" BorderThickness="0">
+                                        <materialDesign:PackIcon Kind="WindowClose" 
+                                Foreground="#607D8B" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="border" Property="Background" Value="#FFCDD2"/>
+                                            <Setter TargetName="border" Property="BorderBrush" Value="#EF9A9A"/>
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="True">
+                                            <Setter TargetName="border" Property="Background" Value="#EF9A9A"/>
+                                            <Setter TargetName="border" Property="BorderBrush" Value="#E57373"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
                         </Button>
                     </ToolBar>
                 </ToolBarTray>

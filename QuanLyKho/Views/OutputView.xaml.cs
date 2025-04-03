@@ -140,70 +140,65 @@ namespace QuanLyKho.Views
         {
             if (lvOutput.SelectedItem is Output selectedOutput)
             {
-                var form = new OutputInfoForm(selectedOutput.Id);
-                form.OnOutputInfoUpdated = () =>
-                {
-                    LoadOutputs();
-                    lvOutput_SelectionChanged(null, null);
-                };
-
-                var window = new Window
-                {
-                    Content = form,
-                    Title = "Thêm thông tin phiếu xuất",
-                    Width = 500,
-                    Height = 600,
-                    WindowStartupLocation = WindowStartupLocation.CenterScreen
-                };
-                window.ShowDialog();
+                ShowOutputInfoForm(
+                    outputId: selectedOutput.Id,
+                    title: "Thêm thông tin phiếu xuất");
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn phiếu xuất trước khi thêm thông tin",
+                               "Cảnh báo",
+                               MessageBoxButton.OK,
+                               MessageBoxImage.Warning);
             }
         }
 
         private void EditOutputInfo_Click(object sender, RoutedEventArgs e)
         {
-            var button = sender as Button;
-            if (button?.DataContext is object selectedRow)
+            if (sender is Button button && button.DataContext is OutputInfo selectedOutputInfo)
             {
-                var property = selectedRow.GetType().GetProperty("Id");
-                if (property != null)
+                // Reload từ DB để đảm bảo dữ liệu mới nhất
+                var outputInfo = _context.OutputInfos
+                    .Include(oi => oi.IdInputInfoNavigation)
+                        .ThenInclude(ii => ii.IdProductSupplierNavigation)
+                            .ThenInclude(ps => ps.IdProductNavigation)
+                    .Include(oi => oi.IdInputInfoNavigation)
+                        .ThenInclude(ii => ii.IdProductSupplierNavigation)
+                            .ThenInclude(ps => ps.IdSupplierNavigation)
+                    .Include(oi => oi.IdCustomerNavigation)
+                    .FirstOrDefault(oi => oi.Id == selectedOutputInfo.Id);
+
+                if (outputInfo != null)
                 {
-                    int? id = property.GetValue(selectedRow) as int?;
-                    if (id.HasValue)
-                    {
-                        var selectedOutputInfo = _context.OutputInfos
-                            .Include(oi => oi.IdInputInfoNavigation)
-                                .ThenInclude(ii => ii.IdProductSupplierNavigation)
-                                    .ThenInclude(ps => ps.IdProductNavigation)
-                            .Include(oi => oi.IdInputInfoNavigation)
-                                .ThenInclude(ii => ii.IdProductSupplierNavigation)
-                                    .ThenInclude(ps => ps.IdSupplierNavigation)
-                            .Include(oi => oi.IdCustomerNavigation)
-                            .FirstOrDefault(oi => oi.Id == id.Value);
-
-                        if (selectedOutputInfo != null)
-                        {
-                            var form = new OutputInfoForm(selectedOutputInfo);
-                            form.OnOutputInfoUpdated = () =>
-                            {
-                                LoadOutputs();
-                                lvOutput_SelectionChanged(null, null);
-                            };
-
-                            var window = new Window
-                            {
-                                Content = form,
-                                Title = "Chỉnh sửa thông tin phiếu xuất",
-                                Width = 500,
-                                Height = 600,
-                                WindowStartupLocation = WindowStartupLocation.CenterScreen
-                            };
-                            window.ShowDialog();
-                        }
-                    }
+                    ShowOutputInfoForm(
+                        outputInfo: outputInfo,
+                        title: "Chỉnh sửa thông tin phiếu xuất");
                 }
             }
         }
 
+        private void ShowOutputInfoForm(int? outputId = null, OutputInfo outputInfo = null, string title = "")
+        {
+            OutputInfoForm form = outputId != null
+                ? new OutputInfoForm(outputId.Value)
+                : new OutputInfoForm(outputInfo);
+
+            form.OnOutputInfoUpdated = () =>
+            {
+                LoadOutputs();
+                lvOutput_SelectionChanged(null, null);
+            };
+
+            var window = new Window
+            {
+                Content = form,
+                Title = title,
+                Width = 500,
+                Height = 600,
+                WindowStartupLocation = WindowStartupLocation.CenterScreen
+            };
+            window.ShowDialog();
+        }
         private void DeleteOutputInfo_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;

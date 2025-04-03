@@ -33,13 +33,22 @@ namespace QuanLyKho.Views
             {
                 window.WindowState = WindowState.Normal;
                 ((Button)sender).ToolTip = "Maximize Window";
-                ((PackIcon)((Button)sender).Content).Kind = PackIconKind.WindowMaximize;
+                var button = sender as Button;
+                if (button != null && button.Content is PackIcon icon)
+                {
+                    icon.Kind = PackIconKind.WindowMaximize;
+                }
             }
             else
             {
                 window.WindowState = WindowState.Maximized;
                 ((Button)sender).ToolTip = "Restore Window";
-                ((PackIcon)((Button)sender).Content).Kind = PackIconKind.WindowRestore;
+                var button = sender as Button;
+                if (button != null && button.Content is PackIcon icon)
+                {
+                    icon.Kind = PackIconKind.WindowRestore;
+                }
+
             }
         }
     }

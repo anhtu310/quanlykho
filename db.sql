@@ -1,4 +1,4 @@
-﻿
+﻿USE master
 -- Xóa database cũ nếu tồn tại
 DROP DATABASE IF EXISTS QuanlyKho;
 GO
@@ -49,6 +49,7 @@ CREATE TABLE Product (
     IdUnit INT NOT NULL,
     Quantity INT NOT NULL DEFAULT 0,
     CategoryId INT, -- Thêm cột CategoryId
+	WarningQuantity INT,
     FOREIGN KEY (IdUnit) REFERENCES Unit(Id),
     FOREIGN KEY (CategoryId) REFERENCES Category(Id) -- Liên kết với bảng Category
 );

@@ -13,6 +13,9 @@
             <Label Content="Chọn sản phẩm:" FontWeight="Bold"/>
             <ComboBox x:Name="ProductComboBox" DisplayMemberPath="Name" SelectedValuePath="Id" Padding="5" Margin="0,0,0,10"/>
 
+            <!-- Hiển thị số lượng có sẵn -->
+            <TextBlock x:Name="AvailableQuantityText" Margin="0,0,0,10" Foreground="Gray"/>
+
             <!-- Khách hàng -->
             <Label Content="Chọn khách hàng:" FontWeight="Bold"/>
             <ComboBox x:Name="CustomerComboBox" DisplayMemberPath="Name" SelectedValuePath="Id" Padding="5" Margin="0,0,0,10"/>
@@ -23,16 +26,13 @@
 
             <!-- Giá xuất -->
             <Label Content="Giá xuất:" FontWeight="Bold"/>
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                <ComboBox x:Name="EstimatedPriceComboBox" DisplayMemberPath="EstimatedPrice" SelectedValuePath="EstimatedPrice" Padding="5" Width="150"/>
-                <TextBox x:Name="OutputPriceTextBox" Padding="5" Margin="10,0,0,0" Width="150"/>
-            </StackPanel>
+            <TextBox x:Name="OutputPriceTextBox" Padding="5" Margin="0,0,0,10" Width="auto"/>
 
             <!-- Trạng thái -->
             <Label Content="Chọn trạng thái:" FontWeight="Bold"/>
             <ComboBox x:Name="StatusComboBox" Padding="5" Margin="0,0,0,10">
+                <ComboBoxItem Content="Đang xử lý" />
                 <ComboBoxItem Content="Hoàn thành" />
-                <ComboBoxItem Content="Đang thực hiện" />
             </ComboBox>
 
             <!-- Ảnh chứng từ -->
@@ -44,9 +44,9 @@
 
             <!-- Nút Lưu và Hủy -->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10,10,0,0">
-                <Button Margin="0,0,80,0" HorizontalAlignment="Left" Content="Lưu" Background="#27AE60" Foreground="White" Width="80"
-                        Click="SaveButton_Click"/>
-                <Button Margin="0,0,20,0" HorizontalAlignment="Right" Content="Hủy" Background="#E74C3C" Foreground="White" Width="80" 
+                <Button Content="Lưu" Background="#27AE60" Foreground="White" Width="80"
+                        Click="SaveButton_Click" Margin="0,0,10,0"/>
+                <Button Content="Hủy" Background="#E74C3C" Foreground="White" Width="80" 
                         Click="CancelButton_Click"/>
             </StackPanel>
         </StackPanel>
