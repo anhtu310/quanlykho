@@ -96,7 +96,7 @@ namespace QuanLyKho.UserControlAT {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/QuanLyKho;V1.0.0.0;component/usercontrolbarat/usercontrolbaruc.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/QuanLyKho;component/usercontrolbarat/usercontrolbaruc.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\UserControlBarAT\UserControlBarUC.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

@@ -11,10 +11,10 @@ false
 TRACE;RELEASE;NET;NET8_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
 D:\Desktop\ManageKho\QuanLyKho\QuanLyKho\App.xaml
 191292918308
-
-46610384498
-25241945145
+11054755562
+46-1573647320
+247-181738916
 LoginWindow.xaml;MainWindow.xaml;ResourceXAML\MainResource.xaml;UserControlBarAT\UserControlBarUC.xaml;Views\CategoryView.xaml;Views\CustomerForm.xaml;Views\CustomerView.xaml;Views\EmployeeForm.xaml;Views\EmployeeView.xaml;Views\InputInfoForm.xaml;Views\InputView.xaml;Views\OutputInfoForm.xaml;Views\OutputView.xaml;Views\ProductForm.xaml;Views\ProductView.xaml;Views\StatisticsWindow.xaml;Views\SupplierForm.xaml;Views\SupplierView.xaml;Views\UnitView.xaml;
 
-False
+True
 

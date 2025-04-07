@@ -48,7 +48,7 @@
                     <GridViewColumn Header="Ngày liên hệ" DisplayMemberBinding="{Binding ContactDate}" Width="auto"/>
                     <GridViewColumn Header="Ghi chú" DisplayMemberBinding="{Binding MoreInfo}" Width="auto"/>
 
-                    <GridViewColumn Header="Hành động" Width="auto">
+                    <GridViewColumn Header="Action" Width="auto">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">

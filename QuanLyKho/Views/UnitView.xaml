@@ -28,7 +28,7 @@
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Tên đơn vị" DisplayMemberBinding="{Binding Name}" Width="auto"/>
-                            <GridViewColumn Header="Hành động" Width="200">
+                            <GridViewColumn Header="Action" Width="200">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">

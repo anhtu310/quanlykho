@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using QuanLyKho.Models;
+using System.IO;
 
 namespace QuanLyKho.Data;
 
@@ -41,7 +42,10 @@ public partial class QuanlyKhoDbContext : DbContext
     public virtual DbSet<Unit> Units { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Server=localhost;Database=QuanlyKho;User Id=sa;Password=123;TrustServerCertificate=True");
+    {
+        var dbPath = Path.Combine(AppContext.BaseDirectory, "QuanlyKho.db");
+        optionsBuilder.UseSqlite($"Data Source={dbPath}");
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
