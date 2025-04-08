@@ -148,8 +148,12 @@ namespace QuanLyKho.Views
 
                 int productId = (int)ProductComboBox.SelectedValue;
                 int supplierId = (int)SupplierComboBox.SelectedValue;
-                string status = ((ComboBoxItem)StatusComboBox.SelectedItem).Content.ToString();
-
+                string? status = ((ComboBoxItem?)StatusComboBox.SelectedItem)?.Content?.ToString();
+                if (string.IsNullOrEmpty(status))
+                {
+                    MessageBox.Show("Vui lòng chọn trạng thái!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
                 // 2. TÌM HOẶC TẠO LIÊN KẾT PRODUCT-SUPPLIER
                 using var transaction = _context.Database.BeginTransaction();
                 try
@@ -182,7 +186,6 @@ namespace QuanLyKho.Views
                         _context.SaveChanges(); // Lưu ngay để có ID
                     }
 
-                    // 3. XỬ LÝ INPUTINFO (THÊM MỚI HOẶC CẬP NHẬT)
                     if (_inputInfo == null)
                     {
                         // THÊM MỚI
@@ -198,7 +201,6 @@ namespace QuanLyKho.Views
                         };
                         _context.InputInfos.Add(_inputInfo);
 
-                        // Cập nhật số lượng nếu trạng thái là "Hoàn thành"
                         if (status == "Hoàn thành")
                         {
                             product.Quantity += count;
@@ -207,7 +209,6 @@ namespace QuanLyKho.Views
                     }
                     else
                     {
-                        // CẬP NHẬT - Tải lại từ DB để đảm bảo dữ liệu mới nhất
                         var existingInfo = _context.InputInfos
                             .Include(ii => ii.IdProductSupplierNavigation)
                                 .ThenInclude(ps => ps.IdProductNavigation)
@@ -219,7 +220,6 @@ namespace QuanLyKho.Views
                             return;
                         }
 
-                        // Lưu giá trị cũ để điều chỉnh số lượng
                         int oldCount = existingInfo.Count;
                         string oldStatus = existingInfo.Status ?? string.Empty;
 
@@ -246,7 +246,6 @@ namespace QuanLyKho.Views
                         }
                     }
 
-                    // 4. LƯU THAY ĐỔI VÀ KẾT THÚC
                     _context.SaveChanges();
                     transaction.Commit();
 

@@ -76,7 +76,7 @@ CREATE TABLE InputInfo (
     IdInput INT NOT NULL,
     Count INT NOT NULL,
     InputPrice DECIMAL(18,2) NOT NULL,
-    OutputPrice DECIMAL(18,2) NOT NULL,
+    OutputPrice DECIMAL(18,2) NOT NULL, --giá xuất dự kiến
     Status NVARCHAR(50),
     ContractImage VARBINARY(MAX),
     FOREIGN KEY (IdProductSupplier) REFERENCES ProductSupplier(Id),
@@ -96,6 +96,7 @@ CREATE TABLE OutputInfo (
     IdProduct INT NOT NULL,
     IdInputInfo INT NOT NULL,
     Count INT NOT NULL,
+	OutputPrice DECIMAL(18,2) NOT NULL, -- giá xuất thật
     IdCustomer INT NOT NULL,
     ContractImage VARBINARY(MAX),
     Status NVARCHAR(50),
@@ -126,75 +127,3 @@ CREATE TABLE Attendance (
     CONSTRAINT UQ_Attendance_Employee_Date UNIQUE (EmployeeId, Date)
 );
 
--- Thêm một số đơn vị tính vào bảng Unit
-INSERT INTO Unit (Name) VALUES ('Cái');
-INSERT INTO Unit (Name) VALUES ('Kg');
-INSERT INTO Unit (Name) VALUES ('Lít');
-
--- Thêm một số nhà cung cấp vào bảng Supplier
-INSERT INTO Supplier (Name, Address, Email, Phone, ContactDate, MoreInfo) 
-VALUES 
-('Nhà cung cấp A', 'Địa chỉ A', 'ncc_a@example.com', '0123456789', '2025-04-01', 'Thông tin thêm A'),
-('Nhà cung cấp B', 'Địa chỉ B', 'ncc_b@example.com', '0987654321', '2025-04-02', 'Thông tin thêm B');
-
--- Thêm một số khách hàng vào bảng Customer
-INSERT INTO Customer (Name, Address, Email, Phone, ContactDate, MoreInfo) 
-VALUES 
-('Khách hàng A', 'Địa chỉ KH A', 'kh_a@example.com', '0912345678', '2025-04-01', 'Thông tin thêm KH A'),
-('Khách hàng B', 'Địa chỉ KH B', 'kh_b@example.com', '0923456789', '2025-04-02', 'Thông tin thêm KH B');
-
--- Thêm danh mục sản phẩm vào bảng Category
-INSERT INTO Category (Name) 
-VALUES 
-('Điện tử'),
-('Thực phẩm'),
-('Văn phòng phẩm');
-
--- Thêm sản phẩm vào bảng Product
-INSERT INTO Product (Name, IdUnit, Quantity, CategoryId) 
-VALUES 
-('Smartphone', 1, 100, 1),  -- 1 là đơn vị "Cái", 1 là CategoryId "Điện tử"
-('Laptop', 1, 50, 1),       -- 1 là đơn vị "Cái", 1 là CategoryId "Điện tử"
-('Gạo', 2, 200, 2),        -- 2 là đơn vị "Kg", 2 là CategoryId "Thực phẩm"
-('Bút bi', 1, 500, 3);     -- 1 là đơn vị "Cái", 3 là CategoryId "Văn phòng phẩm"
-
--- Thêm thông tin sản phẩm và nhà cung cấp vào bảng ProductSupplier
-INSERT INTO ProductSupplier (IdProduct, IdSupplier) 
-VALUES 
-(1, 1), -- Smartphone từ Nhà cung cấp A
-(2, 2), -- Laptop từ Nhà cung cấp B
-(3, 1); -- Gạo từ Nhà cung cấp A
-
--- Thêm phiếu nhập vào bảng Input
-INSERT INTO Input (DateInput) 
-VALUES ('2025-04-01'), 
-       ('2025-04-02');
-
--- Thêm chi tiết phiếu nhập vào bảng InputInfo
-INSERT INTO InputInfo (IdProductSupplier, IdInput, Count, InputPrice, OutputPrice, Status) 
-VALUES 
-(1, 1, 50, 5000000, 6000000, 'Đã nhập'),
-(2, 2, 30, 15000000, 18000000, 'Đã nhập');
-
--- Thêm phiếu xuất vào bảng Output
-INSERT INTO Output (DateOutput) 
-VALUES ('2025-04-03'), 
-       ('2025-04-04');
-
--- Thêm chi tiết phiếu xuất vào bảng OutputInfo
-INSERT INTO OutputInfo (IdOutput, IdProduct, IdInputInfo, Count, IdCustomer, ContractImage, Status) 
-VALUES 
-(1, 1, 1, 10, 1, NULL, 'Đã xuất'),
-(2, 2, 2, 5, 2, NULL, 'Đã xuất');
-
--- Thêm nhân viên vào bảng Employee
-INSERT INTO Employee (Name, Address, Phone, Email, Status) 
-VALUES 
-('Nhân viên A', 'Địa chỉ NV A', '0912345678', 'nv_a@example.com', 1),
-('Nhân viên B', 'Địa chỉ NV B', '0912345679', 'nv_b@example.com', 1);
-
--- Thêm thông tin chấm công vào bảng Attendance
-INSERT INTO Attendance (EmployeeId, Date, IsAbsent, Note) 
-VALUES 
-(1, '2025-04-01', 0, 'Đi làm'),
-(2, '2025-04-01', 1, 'Nghỉ phép');

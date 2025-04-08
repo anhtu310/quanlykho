@@ -48,7 +48,7 @@ namespace QuanLyKho.Views
                         ProductName = oi.IdInputInfoNavigation.IdProductSupplierNavigation.IdProductNavigation.Name,
                         Customer = oi.IdCustomerNavigation.Name,
                         oi.Count,
-                        oi.IdInputInfoNavigation.OutputPrice,
+                        oi.OutputPrice,
                         oi.Status,
                         ImageSource = ImageHelper.ConvertToImageSource(oi.ContractImage),
                         InvoiceImage = oi.ContractImage
@@ -155,24 +155,36 @@ namespace QuanLyKho.Views
 
         private void EditOutputInfo_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button button && button.DataContext is OutputInfo selectedOutputInfo)
+            if (sender is Button button && button.DataContext != null)
             {
-                // Reload từ DB để đảm bảo dữ liệu mới nhất
-                var outputInfo = _context.OutputInfos
-                    .Include(oi => oi.IdInputInfoNavigation)
-                        .ThenInclude(ii => ii.IdProductSupplierNavigation)
-                            .ThenInclude(ps => ps.IdProductNavigation)
-                    .Include(oi => oi.IdInputInfoNavigation)
-                        .ThenInclude(ii => ii.IdProductSupplierNavigation)
-                            .ThenInclude(ps => ps.IdSupplierNavigation)
-                    .Include(oi => oi.IdCustomerNavigation)
-                    .FirstOrDefault(oi => oi.Id == selectedOutputInfo.Id);
-
-                if (outputInfo != null)
+                try
                 {
-                    ShowOutputInfoForm(
-                        outputInfo: outputInfo,
-                        title: "Chỉnh sửa thông tin phiếu xuất");
+                    dynamic data = button.DataContext;
+                    int id = data.Id;
+
+                    var outputInfo = _context.OutputInfos
+                        .Include(oi => oi.IdInputInfoNavigation)
+                        .ThenInclude(ii => ii.IdProductSupplierNavigation)
+                        .ThenInclude(ps => ps.IdProductNavigation)
+                        .Include(oi => oi.IdInputInfoNavigation)
+                        .ThenInclude(ii => ii.IdProductSupplierNavigation)
+                        .ThenInclude(ps => ps.IdSupplierNavigation)
+                        .Include(oi => oi.IdCustomerNavigation)
+                        .FirstOrDefault(oi => oi.Id == id);
+
+                    if (outputInfo != null)
+                    {
+                        ShowOutputInfoForm(
+                            outputInfo: outputInfo,
+                            title: "Chỉnh sửa thông tin phiếu xuất");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Lỗi khi mở form chỉnh sửa: {ex.Message}",
+                                  "Lỗi",
+                                  MessageBoxButton.OK,
+                                  MessageBoxImage.Error);
                 }
             }
         }

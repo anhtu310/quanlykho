@@ -60,7 +60,7 @@ namespace QuanLyKho.Views {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/QuanLyKho;V1.0.0.0;component/views/unitview.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/QuanLyKho;component/views/unitview.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Views\UnitView.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

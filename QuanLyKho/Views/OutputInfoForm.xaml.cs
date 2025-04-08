@@ -13,6 +13,8 @@ namespace QuanLyKho.Views
 {
     public partial class OutputInfoForm : UserControl
     {
+        private int _oldCount = 0;
+        private string? _oldStatus = null;
         private readonly QuanlyKhoDbContext _context;
         private OutputInfo? _outputInfo;
         private readonly int _outputId;
@@ -52,12 +54,21 @@ namespace QuanLyKho.Views
         {
             try
             {
-                // Load products with available quantity
-                ProductComboBox.ItemsSource = _context.Products
+                var availableProducts = _context.Products
                     .Where(p => p.Quantity > 0)
                     .ToList();
 
-                // Load all active customers
+                if (_outputInfo != null && _outputInfo.IdProductNavigation != null)
+                {
+                    var existingProduct = _outputInfo.IdProductNavigation;
+                    if (!availableProducts.Any(p => p.Id == existingProduct.Id))
+                    {
+                        availableProducts.Add(existingProduct);
+                    }
+                }
+
+                ProductComboBox.ItemsSource = availableProducts;
+
                 CustomerComboBox.ItemsSource = _context.Customers.ToList();
             }
             catch (Exception ex)
@@ -76,17 +87,17 @@ namespace QuanLyKho.Views
         private void PopulateFields()
         {
             if (_outputInfo == null) return;
-
+            _oldCount = _outputInfo.Count;
+            _oldStatus = _outputInfo.Status;
             ProductComboBox.SelectedValue = _outputInfo.IdProduct;
             CustomerComboBox.SelectedValue = _outputInfo.IdCustomer;
             CountTextBox.Text = _outputInfo.Count.ToString("N0");
 
             if (_outputInfo.IdInputInfoNavigation != null)
             {
-                OutputPriceTextBox.Text = _outputInfo.IdInputInfoNavigation.OutputPrice.ToString("N0");
+                OutputPriceTextBox.Text = _outputInfo.OutputPrice.ToString("N0");
             }
 
-            // Select status in combobox
             foreach (ComboBoxItem item in StatusComboBox.Items)
             {
                 if (item.Content.ToString() == _outputInfo.Status)
@@ -95,8 +106,6 @@ namespace QuanLyKho.Views
                     break;
                 }
             }
-
-            // Load contract image if exists
             if (_outputInfo.ContractImage != null && _outputInfo.ContractImage.Length > 0)
             {
                 _selectedImageData = _outputInfo.ContractImage;
@@ -124,7 +133,6 @@ namespace QuanLyKho.Views
                 {
                     AvailableQuantityText.Text = $"Số lượng có sẵn: {product.Quantity:N0}";
 
-                    // Tự động điền giá xuất nếu có
                     var inputInfo = _context.InputInfos
                         .Include(ii => ii.IdProductSupplierNavigation)
                         .FirstOrDefault(ii => ii.IdProductSupplierNavigation.IdProduct == productId);
@@ -160,7 +168,13 @@ namespace QuanLyKho.Views
             var customerId = (int)CustomerComboBox.SelectedValue;
             var count = int.Parse(CountTextBox.Text);
             var outputPrice = decimal.Parse(OutputPriceTextBox.Text);
-            var status = ((ComboBoxItem)StatusComboBox.SelectedItem).Content.ToString();
+            var status = ((ComboBoxItem)StatusComboBox.SelectedItem)?.Content?.ToString();
+
+            if (string.IsNullOrEmpty(status))
+            {
+                ShowError("Trạng thái không hợp lệ!");
+                return;
+            }
 
             using var transaction = _context.Database.BeginTransaction();
             try
@@ -172,21 +186,31 @@ namespace QuanLyKho.Views
                     return;
                 }
 
-                if (product.Quantity < count && status == "Hoàn thành")
+                if (_outputInfo == null && product.Quantity < count && status == "Hoàn thành")
                 {
                     ShowError($"Không đủ hàng trong kho! Số lượng có sẵn: {product.Quantity:N0}");
                     return;
                 }
 
-                var inputInfo = FindMatchingInputInfo(productId, outputPrice);
+                var inputInfo = FindMatchingInputInfo(productId);
                 if (inputInfo == null)
                 {
                     ShowError("Không tìm thấy lô hàng nhập phù hợp!");
                     return;
                 }
 
-                SaveOutputInfo(product, inputInfo, customerId, count, status);
+                SaveOutputInfo(product, inputInfo, customerId, count, outputPrice, status);
+                if (_outputInfo != null && _outputInfo.Status == "Hoàn thành" && status == "Hoàn thành")
+                {
+                    int diff = count - _oldCount;
+                    if (diff > 0 && product.Quantity < diff)
+                    {
+                        ShowError($"Không đủ hàng để cập nhật! Thiếu {diff - product.Quantity:N0} sản phẩm.");
+                        return;
+                    }
+                }
                 UpdateProductQuantity(product, count, status);
+                Console.WriteLine($"ProductId: {productId}, CustomerId: {customerId}, Count: {count}, Price: {outputPrice}, Status: {status}");
 
                 _context.SaveChanges();
                 transaction.Commit();
@@ -198,7 +222,14 @@ namespace QuanLyKho.Views
             catch (Exception ex)
             {
                 transaction.Rollback();
-                ShowError($"Lỗi khi lưu thông tin: {ex.Message}");
+
+                var inner = ex;
+                while (inner.InnerException != null)
+                {
+                    inner = inner.InnerException;
+                }
+
+                ShowError($"Lỗi khi lưu thông tin: {inner.Message}");
             }
         }
 
@@ -237,15 +268,14 @@ namespace QuanLyKho.Views
             return true;
         }
 
-        private InputInfo? FindMatchingInputInfo(int productId, decimal outputPrice)
+        private InputInfo? FindMatchingInputInfo(int productId)
         {
             return _context.InputInfos
                 .Include(ii => ii.IdProductSupplierNavigation)
-                .FirstOrDefault(ii => ii.IdProductSupplierNavigation.IdProduct == productId &&
-                                    ii.OutputPrice == outputPrice);
+                .FirstOrDefault(ii => ii.IdProductSupplierNavigation.IdProduct == productId);
         }
 
-        private void SaveOutputInfo(Product product, InputInfo inputInfo, int customerId, int count, string status)
+        private void SaveOutputInfo(Product product, InputInfo inputInfo, int customerId, int count,decimal outputPrice, string status)
         {
             if (_outputInfo == null)
             {
@@ -255,6 +285,7 @@ namespace QuanLyKho.Views
                     IdProduct = product.Id,
                     IdCustomer = customerId,
                     IdInputInfo = inputInfo.Id,
+                    OutputPrice = outputPrice,
                     Count = count,
                     Status = status,
                     ContractImage = _selectedImageData
@@ -267,21 +298,38 @@ namespace QuanLyKho.Views
                 _outputInfo.IdCustomer = customerId;
                 _outputInfo.IdInputInfo = inputInfo.Id;
                 _outputInfo.Count = count;
+                _outputInfo.OutputPrice = outputPrice;
                 _outputInfo.Status = status;
                 _outputInfo.ContractImage = _selectedImageData ?? _outputInfo.ContractImage;
             }
         }
 
-        private void UpdateProductQuantity(Product product, int count, string status)
+        private void UpdateProductQuantity(Product product, int newCount, string newStatus)
         {
-            if (status == "Hoàn thành")
+            if (_outputInfo == null) return;
+
+            // Trường hợp Đang xử lý → Hoàn thành: Trừ toàn bộ số lượng mới
+            if (_oldStatus != "Hoàn thành" && newStatus == "Hoàn thành")
             {
-                product.Quantity -= count;
+                product.Quantity -= newCount;
             }
-            else if (_outputInfo?.Status == "Hoàn thành" && status != "Hoàn thành")
+            // Trường hợp Hoàn thành → Đang xử lý: Trả lại toàn bộ số lượng cũ
+            else if (_oldStatus == "Hoàn thành" && newStatus != "Hoàn thành")
             {
-                // Nếu trạng thái cũ là Hoàn thành và mới không phải thì hoàn trả số lượng
-                product.Quantity += _outputInfo.Count;
+                product.Quantity += _oldCount;
+            }
+            // Trường hợp Hoàn thành → Hoàn thành: Điều chỉnh theo chênh lệch
+            else if (_oldStatus == "Hoàn thành" && newStatus == "Hoàn thành")
+            {
+                int diff = newCount - _oldCount;
+                if (diff > 0)
+                {
+                    product.Quantity -= diff;
+                }
+                else if (diff < 0)
+                {
+                    product.Quantity += Math.Abs(diff);
+                }
             }
         }
 

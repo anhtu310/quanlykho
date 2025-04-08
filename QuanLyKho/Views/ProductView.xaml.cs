@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using DocumentFormat.OpenXml.InkML;
 using Microsoft.EntityFrameworkCore;
 using QuanLyKho.Data;
 using QuanLyKho.Models;
@@ -158,37 +159,61 @@ namespace QuanLyKho.Views
 
         private void DeleteProduct_Click(object sender, RoutedEventArgs e)
         {
-            if ((sender as Button)?.DataContext is Product selectedProduct)
+            if ((sender as Button)?.DataContext is not Product selectedProduct)
+                return;
+
+            var confirmResult = MessageBox.Show(
+                $"Bạn có chắc chắn muốn xóa sản phẩm '{selectedProduct.Name}'?",
+                "Xác nhận xóa",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning);
+
+            if (confirmResult != MessageBoxResult.Yes)
+                return;
+
+            using var transaction = context.Database.BeginTransaction();
+            try
             {
-                var result = MessageBox.Show($"Xóa sản phẩm {selectedProduct.Name}?", "Xác nhận xóa",
-                                             MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
-                if (result == MessageBoxResult.Yes)
+                var productToDelete = context.Products
+                    .Where(p => p.Id == selectedProduct.Id)
+                    .Select(p => new
+                    {
+                        Product = p,
+                        SupplierIds = p.ProductSuppliers.Select(ps => ps.Id).ToList(),
+                        OutputInfoIds = p.OutputInfos.Select(oi => oi.Id).ToList()
+                    })
+                    .FirstOrDefault();
+
+                if (productToDelete == null)
                 {
-                    try
-                    {
-                        // Kiểm tra xem có dữ liệu liên quan không
-                        var productToDelete = context.Products
-                            .Include(p => p.ProductSuppliers)
-                            .Include(p => p.OutputInfos)
-                            .FirstOrDefault(p => p.Id == selectedProduct.Id);
-
-                        if (productToDelete != null)
-                        {
-                            // Xóa tất cả dữ liệu liên quan trước
-                            context.ProductSuppliers.RemoveRange(productToDelete.ProductSuppliers);
-                            context.OutputInfos.RemoveRange(productToDelete.OutputInfos);
-                            context.Products.Remove(productToDelete);
-                            context.SaveChanges();
-
-                            Products.Remove(selectedProduct); // Cập nhật danh sách
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Lỗi khi xóa: " + ex.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
+                    MessageBox.Show("Sản phẩm không tồn tại!", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
                 }
+
+                if (productToDelete.OutputInfoIds.Any())
+                {
+                    context.OutputInfos.Where(oi => productToDelete.OutputInfoIds.Contains(oi.Id)).ExecuteDelete();
+                }
+
+                if (productToDelete.SupplierIds.Any())
+                {
+                    context.InputInfos.Where(ii => productToDelete.SupplierIds.Contains(ii.IdProductSupplier)).ExecuteDelete();
+                    context.ProductSuppliers.Where(ps => productToDelete.SupplierIds.Contains(ps.Id)).ExecuteDelete();
+                }
+
+                context.Products.Where(p => p.Id == selectedProduct.Id).ExecuteDelete();
+
+                context.SaveChanges();
+                transaction.Commit();
+
+                Products.Remove(selectedProduct);
+                MessageBox.Show("Xóa sản phẩm thành công!", "Thành công", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback();
+                MessageBox.Show($"Lỗi khi xóa sản phẩm: {ex.Message}", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

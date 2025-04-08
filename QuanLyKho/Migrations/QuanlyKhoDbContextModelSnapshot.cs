@@ -239,6 +239,9 @@ namespace QuanLyKho.Migrations
                     b.Property<int>("IdProduct")
                         .HasColumnType("INTEGER");
 
+                    b.Property<decimal>("OutputPrice")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Status")
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");

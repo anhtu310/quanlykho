@@ -99,7 +99,7 @@
                         <GridViewColumn Header="Nhà cung cấp" DisplayMemberBinding="{Binding Supplier}" Width="auto"/>
                         <GridViewColumn Header="Số lượng" DisplayMemberBinding="{Binding Count, StringFormat='{}{0:N0}'}" Width="auto"/>
                         <GridViewColumn Header="Giá nhập" DisplayMemberBinding="{Binding InputPrice, StringFormat='{}{0:N0}'}" Width="auto"/>
-                        <GridViewColumn Header="Giá xuất" DisplayMemberBinding="{Binding OutputPrice, StringFormat='{}{0:N0}'}" Width="auto"/>
+                        <GridViewColumn Header="Giá xuất dự kiến" DisplayMemberBinding="{Binding OutputPrice, StringFormat='{}{0:N0}'}" Width="auto"/>
                         <GridViewColumn Header="Trạng thái" DisplayMemberBinding="{Binding Status}" Width="auto"/>
 
                         <GridViewColumn Header="Action" Width="150">

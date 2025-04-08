@@ -132,7 +132,7 @@ namespace QuanLyKho.ViewModels
                             .Where(o => o.IdProduct == p.Id &&
                                         (FromDate == null || o.IdOutputNavigation.DateOutput >= FromDate) &&
                                         (ToDate == null || o.IdOutputNavigation.DateOutput <= ToDate))
-                            .Sum(o => (decimal?)(o.Count * o.IdInputInfoNavigation.OutputPrice)) ?? 0
+                            .Sum(o => (decimal?)(o.Count * o.OutputPrice)) ?? 0
                     }).ToList();
 
                 StatisticsData.Clear();
